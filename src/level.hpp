@@ -18,13 +18,18 @@ public:
     , player_(player)
     , tileMap_(tileMap) {}
 
-  void print()
-  {
-    cout << "Level { id: " << id_;
-    player_.print();
-    cout << " }" << endl;
-  }
+  friend ostream& operator<<(ostream&, const Level&);
 };
+
+ostream& operator<<(ostream& os, const Level& rhs)
+{
+  os << "Level { id: " << rhs.id_
+     << " player: " << rhs.player_
+     << " tileMap: " << rhs.tileMap_
+     << " } ";
+
+  return os;
+}
 
 #endif
 

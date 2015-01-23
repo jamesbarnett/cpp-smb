@@ -12,9 +12,16 @@ private:
 
 public:
   Sound(string name, string res) : name_(name), res_(res) { }
-  void print()
-  {
-    cout << "Sound { name: " << name_ << ", res: " << res_ << " }" << endl;
-  }
+  friend ostream& operator<<(ostream&, const Sound&);
 };
+
+ostream& operator<<(ostream& os, const Sound& rhs)
+{
+  os << "Sound { name: " << rhs.name_
+     << " res: " << rhs.res_
+     << " } ";
+
+  return os;
+}
+
 #endif

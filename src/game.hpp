@@ -40,7 +40,6 @@ public:
     fs::path levelDataFile("leveldata.xml");
 
     LevelDataParser levelDataParser(resources / levelDataFile);
-    cout << "About to parse Level data!" << endl;
     auto levelData = levelDataParser.parse();
 
     cout << "Level data parsed!" << endl;
