@@ -31,21 +31,6 @@ public:
     , frames_(frames)
     , value_(value) {}
 
-  void print()
-  {
-    cout << 
-      "Tile { id: " << id_ << 
-      ", resource: " << resource_ << 
-      ", solid: " << solid_ <<
-      ", breakable: " << breakable_ <<
-      ", background: " << background_ <<
-      ", goal: " << goal_ <<
-      ", entity: " << entity_ <<
-      ", frames: " << frames_ <<
-      ", value: " << value_ <<
-      " }" << endl;
-  }
-
   friend ostream& operator<<(ostream&, const Tile&);
 };
 

@@ -11,7 +11,7 @@ private:
   string res_;
 
 public:
-  Sound(string name, string res) : name_(name), res_(res) { }
+  Sound(const string& name, const string& res) : name_(name), res_(res) { }
   friend ostream& operator<<(ostream&, const Sound&);
 };
 

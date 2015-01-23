@@ -1,3 +1,6 @@
+#ifndef GAME_HPP__
+#define GAME_HPP__
+
 #include <iostream>
 #include <boost/filesystem.hpp>
 #include <SDL2/SDL.h>
@@ -91,4 +94,6 @@ private:
 
   }
 };
+
+#endif
 

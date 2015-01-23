@@ -40,3 +40,4 @@ ostream& operator<<(ostream& os, const TileMap& rhs)
 }
 
 #endif
+

@@ -114,6 +114,17 @@ public:
       return nullptr;
     }
   }
+
+  void loadSoundFromFile(const fs::path& path, const string& name)
+  {
+    Mix_Chunk* sound = Mix_LoadWAV(path.string().c_str());
+    if (sound == nullptr)
+    {
+      throw new runtime_error("Failed to load sound!");
+    }
+
+    sounds_.insert(pair<string, Mix_Chunk*>(name, sound));
+  }
 };
 
 #endif
