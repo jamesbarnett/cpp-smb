@@ -1,8 +1,10 @@
 #include <iostream>
+#include <boost/filesystem.hpp>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_video.h>
-#include <boost/filesystem.hpp>
+#include <SDL2/SDL_mixer.h>
 #include "level_data_parser.hpp"
+#include "resource_manager.hpp"
 
 using namespace std;
 namespace fs = boost::filesystem;
