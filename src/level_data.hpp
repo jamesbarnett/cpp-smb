@@ -3,8 +3,6 @@
 
 #include <iostream>
 #include <boost/foreach.hpp>
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/xml_parser.hpp>
 #include "sound.hpp"
 #include "tile.hpp"
 #include "level.hpp"

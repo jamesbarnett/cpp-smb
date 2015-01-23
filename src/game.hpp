@@ -1,7 +1,6 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_video.h>
-#include <boost/property_tree/ptree.hpp>
 #include <boost/filesystem.hpp>
 #include "level_data_parser.hpp"
 
@@ -40,8 +39,6 @@ public:
     fs::path resources("resources");
     fs::path levelDataFile("leveldata.xml");
 
-    // auto levelDataOld = LevelData::load("./resources/leveldata.xml");
-    // auto levelData = LevelDataParser::parse(resources / levelDataFile);
     LevelDataParser levelDataParser(resources / levelDataFile);
     cout << "About to parse Level data!" << endl;
     auto levelData = levelDataParser.parse();

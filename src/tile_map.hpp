@@ -2,7 +2,6 @@
 #define TILE_MAP_HPP__
 
 #include <iostream>
-#include <boost/property_tree/ptree.hpp>
 
 using namespace std;
 
