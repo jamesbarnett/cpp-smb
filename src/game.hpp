@@ -6,6 +6,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_video.h>
 #include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_ttf.h>
+#include "initializer.hpp"
 #include "level_data_parser.hpp"
 #include "resource_manager.hpp"
 #include "scene_manager.hpp"
@@ -17,18 +19,12 @@ class Game
 {
 private:
   SDL_Window* mainWindow_;
+  SDL_Renderer* renderer_;
+  Initializer* initializer_;
+
   bool isRunning_;
-  
-public:
-  Game() : mainWindow_(0), isRunning_(true) { }
-
-  ~Game()
-  {
-    SDL_DestroyWindow(mainWindow_);
-    SDL_Quit();
-  }
-
-  bool init()
+ 
+  bool createWindow()
   {
     mainWindow_ = SDL_CreateWindow("Hello World!", 
       SDL_WINDOWPOS_UNDEFINED,
@@ -41,6 +37,41 @@ public:
       SDL_Quit();
       return false;
     }
+    
+    return true;
+  }
+
+  bool createRenderer()
+  {
+    renderer_ = SDL_CreateRenderer(mainWindow_, -1,
+      SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
+    if (renderer_ == nullptr)
+    {
+      cout << "SDL_CreateRenderer error: " << SDL_GetError() << endl;
+      SDL_Quit();
+      return false;
+    }
+
+    return true;
+  }
+
+public:
+  Game() : mainWindow_(nullptr), renderer_(nullptr), isRunning_(true)
+  {
+    initializer_ = new Initializer;
+  }
+
+  ~Game()
+  {
+    SDL_DestroyWindow(mainWindow_);
+    delete initializer_;
+  }
+
+  bool init()
+  {
+    if (!createWindow()) return false;
+    if (!createRenderer()) return false;
 
     fs::path resources("resources");
     fs::path levelDataFile("leveldata.xml");
@@ -49,6 +80,9 @@ public:
     auto levelData = levelDataParser.parse();
 
     cout << "Level data parsed!" << endl;
+
+    ResourceManager::instance()->renderer(renderer_);
+    levelData.load();
 
     return true;
   }

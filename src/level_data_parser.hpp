@@ -108,7 +108,9 @@ private:
     {
       if (nodeFound(cur, "tile"))
       {
-        levelData.tiles().push_back(parseTile(cur));
+        Tile t = parseTile(cur);
+        cout << t << endl;
+        levelData.tiles().push_back(t);
       }
       
       cur = cur->next;

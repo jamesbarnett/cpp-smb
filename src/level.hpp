@@ -4,6 +4,7 @@
 #include <iostream>
 #include "player.hpp"
 #include "tile_map.hpp"
+#include "tile.hpp"
 
 class Level
 {
@@ -11,6 +12,7 @@ private:
   int id_;
   Player player_;
   TileMap tileMap_;
+  vector<vector<Tile>> tiles_;
 
 public:
   Level() {}
@@ -21,10 +23,16 @@ public:
 
   int id() const { return id_; }
   void id(int val) { id_ = val; }
+  
   Player player() const { return player_; }
   void player(const Player& val) { player_ = val; }
+ 
   TileMap tileMap() const { return tileMap_; }
   void tileMap(const TileMap& val) { tileMap_ = val; }
+ 
+  int cols() { return tileMap_.cols(); }
+  int rows() { return tileMap_.rows(); }
+ 
   friend ostream& operator<<(ostream&, const Level&);
 };
 

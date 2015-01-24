@@ -20,6 +20,9 @@ public:
     , bgcolor_(bgcolor)
     , grid_(grid) {}
 
+  inline int rows() const { return rows_; }
+  inline int cols() const { return cols_; }
+
   friend ostream& operator<<(ostream&, const TileMap&);
 };
 

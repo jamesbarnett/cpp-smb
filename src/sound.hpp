@@ -12,6 +12,10 @@ private:
 
 public:
   Sound(const string& name, const string& res) : name_(name), res_(res) { }
+
+  inline string name() const { return name_; }
+  inline string res() const { return res_; }
+
   friend ostream& operator<<(ostream&, const Sound&);
 };
 
