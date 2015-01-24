@@ -8,7 +8,7 @@
 #include <SDL2/SDL_mixer.h>
 #include "level_data_parser.hpp"
 #include "resource_manager.hpp"
-#include "scene.hpp"
+#include "scene_manager.hpp"
 
 using namespace std;
 namespace fs = boost::filesystem;

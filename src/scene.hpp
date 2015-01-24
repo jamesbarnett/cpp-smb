@@ -46,14 +46,18 @@ public:
 
   void addEntity(const Entity& entity) { entities_.push_back(entity); }
 
-  virtual void initialize() = 0;
-  virtual void reset() = 0;
-  virtual void update(long msecs) = 0;
-  virtual void move() = 0;
-  virtual void draw() = 0;
-  virtual void userPause() = 0;
-  virtual void onPause() = 0;
-  virtual void afterPause() = 0;
+  virtual void initialize() {}
+  virtual void reset() {}
+  virtual void update(long msecs)
+  {
+    cout << msecs << endl; // appease clang for now
+  }
+
+  virtual void move() {}
+  virtual void draw() {}
+  virtual void userPause() {}
+  virtual void onPause() {}
+  virtual void afterPause() {}
 };
 
 #endif
