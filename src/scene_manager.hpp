@@ -30,6 +30,13 @@ public:
       throw new runtime_error("Scene already exists!");
     }
   }
+
+  void startScene(const string& name)
+  {
+    currentScene_ = &scenes_[name];
+    currentScene_->reset();
+    currentScene_->run();
+  }
 };
 
 #endif

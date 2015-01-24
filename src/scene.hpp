@@ -48,6 +48,7 @@ public:
 
   virtual void initialize() {}
   virtual void reset() {}
+  virtual void run() {}
   virtual void update(long msecs)
   {
     cout << msecs << endl; // appease clang for now
