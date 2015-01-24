@@ -8,6 +8,7 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
+#include "sprite_sheet.hpp"
 
 using namespace std;
 namespace fs = boost::filesystem;
@@ -19,6 +20,7 @@ private:
   map<string, TTF_Font*> fonts_;
   map<string, Mix_Music*> music_;
   map<string, Mix_Chunk*> sounds_;
+  map<string, SpriteSheet*> spriteSheets_;
   SDL_Renderer* renderer_;
 
 public:
@@ -43,6 +45,11 @@ public:
     for (auto m : music_)
     {
       Mix_FreeMusic(m.second);
+    }
+
+    for (auto s : spriteSheets_)
+    {
+      delete s.second;
     }
   }
 
@@ -125,6 +132,35 @@ public:
 
     sounds_.insert(pair<string, Mix_Chunk*>(name, sound));
   }
+
+
+  SpriteSheet* getSpriteSheet(const string& name)
+  {
+    if (spriteSheets_.find(name) != spriteSheets_.end())
+    {
+      return spriteSheets_[name];
+    }
+    else
+    {
+      return nullptr;
+    }
+  }
+
+  void loadSpriteSheetFromFile(const fs::path& path, const string& name, int totalFrames)
+  {
+    SDL_Texture* texture = IMG_LoadTexture(renderer_, path.string().c_str());
+    if (texture == nullptr)
+    {
+      throw new runtime_error("Failed to load texture for sprite sheet!");
+    }
+
+    SpriteSheet* spriteSheet = new SpriteSheet();
+
+    spriteSheet->texture(texture);
+    spriteSheet->totalFrames(totalFrames);
+    spriteSheets_.insert(pair<string, SpriteSheet*>(name, spriteSheet));
+  }
 };
 
 #endif
+
