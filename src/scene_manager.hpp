@@ -37,6 +37,12 @@ public:
     currentScene_->reset();
     currentScene_->run();
   }
+
+  void gotoScene(const string& name)
+  {
+    currentScene_ = &scenes_[name];
+    currentScene_->run();
+  }
 };
 
 #endif
