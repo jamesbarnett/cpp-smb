@@ -13,14 +13,12 @@ private:
   SDL_Window* window_;
   SDL_Renderer* renderer_;
   SceneManager* sceneManager_;
-  string title_;
 
 public:
-  GameObject(const string& title) : window_(nullptr)
-                                    , renderer_(nullptr)
-                                    , sceneManager_(nullptr)
+  GameObject() : window_(nullptr)
+                 , renderer_(nullptr)
+                 , sceneManager_(nullptr)
   {
-    title_ = title;
   }
   
   inline SDL_Window* window() const { return window_; }

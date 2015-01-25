@@ -6,6 +6,8 @@
 
 using namespace std;
 
+class GameObject;
+
 class Entity
 {
 private:
@@ -17,12 +19,15 @@ private:
   int acceleration_;
   bool delete_;
   SDL_Texture* texture_;
+  GameObject* gameObject_;
 
 public:
-  Entity() : name_(""), x_(0), y_(0), visible_(false)
+  Entity(GameObject* gameObject) : name_(""), x_(0), y_(0), visible_(false)
     , velocity_(0), acceleration_(0), delete_(false)
-    , texture_(nullptr)
+    , texture_(nullptr), gameObject_(nullptr)
   {
+    gameObject_ = gameObject; 
+  }
 
 
   inline string name() const { return name_; }

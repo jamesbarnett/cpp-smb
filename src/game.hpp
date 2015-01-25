@@ -8,10 +8,9 @@
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
 #include "initializer.hpp"
-#include "game_object.hpp"
 #include "level_data_parser.hpp"
 #include "resource_manager.hpp"
-#include "scene_manager.hpp"
+#include "game_object.hpp"
 
 using namespace std;
 namespace fs = boost::filesystem;
@@ -88,10 +87,10 @@ public:
     LevelDataParser levelDataParser(resources / levelDataFile);
     auto levelData = levelDataParser.parse();
 
-    GameObject* gameObject = new GameObject("Super Mario Bros in C++!");
+    gameObject_ = new GameObject;
 
-    gameObject->window(mainWindow_);
-    gameObject->renderer(renderer_);
+    gameObject_->window(mainWindow_);
+    gameObject_->renderer(renderer_);
 
     ResourceManager::instance()->renderer(renderer_);
     levelData.load();
