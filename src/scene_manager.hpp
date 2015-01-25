@@ -10,20 +10,20 @@ using namespace std;
 class SceneManager
 {
 private:
-  map<string, Scene> scenes_;
+  map<string, Scene*> scenes_;
   Scene* currentScene_;
 
 public:
-  SceneManager() : scenes_(map<string, Scene>()), currentScene_(nullptr) {}
+  SceneManager() : scenes_(map<string, Scene*>()), currentScene_(nullptr) {}
 
   Scene* currentScene() const { return currentScene_; }
   void currentScene(Scene* val) { currentScene_ = val; }
 
-  void addScene(const string& name, const Scene& scene)
+  void addScene(const string& name, Scene* scene)
   {
     if (scenes_.find(name) != scenes_.end())
     {
-      scenes_.insert(pair<string, Scene>(name, scene));
+      scenes_.insert(pair<string, Scene*>(name, scene));
     }
     else
     {
@@ -33,16 +33,17 @@ public:
 
   void startScene(const string& name)
   {
-    currentScene_ = &scenes_[name];
+    currentScene_ = scenes_[name];
     currentScene_->reset();
     currentScene_->run();
   }
 
   void gotoScene(const string& name)
   {
-    currentScene_ = &scenes_[name];
+    currentScene_ = scenes_[name];
     currentScene_->run();
   }
 };
 
 #endif
+

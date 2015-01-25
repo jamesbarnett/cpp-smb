@@ -137,7 +137,8 @@ private:
 
   void draw()
   {
-
+    SDL_RenderClear(renderer_);
+    SDL_RenderPresent(renderer_);
   }
 };
 

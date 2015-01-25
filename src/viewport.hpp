@@ -158,7 +158,14 @@ public:
             int x1 = (tileHeight_ * screenY) + yOffset_;
             int y1 = (tileWidth_ * screenX) + xOffset_;
 
+            SDL_Rect rect;
+            rect.x = x1;
+            rect.y = y1;
+            rect.w = 64;
+            rect.h = 64;
+
             // Get position and draw tile
+            SDL_RenderCopy(gameObject_->renderer(), texture, nullptr, rect);
           }
         }
       }

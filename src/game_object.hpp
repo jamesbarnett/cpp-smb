@@ -20,13 +20,13 @@ public:
                  , sceneManager_(nullptr)
   {
   }
-  
+
   inline SDL_Window* window() const { return window_; }
   inline void window(SDL_Window* val) { window_ = val; }
 
   inline SDL_Renderer* renderer() const { return renderer_; }
   inline void renderer(SDL_Renderer* val) { renderer_ = val; }
- 
+
   inline SceneManager* sceneManager() const { return sceneManager_; }
   inline void sceneManager(SceneManager* val) { sceneManager_ = val; }
 };
