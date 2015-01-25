@@ -27,13 +27,7 @@ private:
 public:
   LevelDataParser(const fs::path& path) : path_(path), doc_(nullptr), root_(nullptr)
   { 
-    openLevelData(); 
-    root_ = xmlDocGetRootElement(doc_);
-
-    if (root_ == nullptr)
-    {
-      cout << "Failed to get xml root element!" << endl;
-    }
+    init(); 
   }
 
   ~LevelDataParser()
@@ -50,12 +44,20 @@ public:
   }
 
 private:
-  void openLevelData()
+  void init()
   {
     doc_ = xmlParseFile(path_.c_str());
+
     if (nullptr == doc_)
     {
       cout << "Failed to open file: " << path_ << endl;
+    }
+
+    root_ = xmlDocGetRootElement(doc_);
+
+    if (root_ == nullptr)
+    {
+      cout << "Failed to get xml root element!" << endl;
     }
   }
 
@@ -74,6 +76,7 @@ private:
       {
         levelData.tileWidth(optionalIntAttr(cur, "width"));
         levelData.tileHeight(optionalIntAttr(cur, "height"));
+
         if (!parseTiles(cur->xmlChildrenNode, levelData)) return false;
       }
       else if (nodeFound(cur, "levels"))
@@ -108,9 +111,7 @@ private:
     {
       if (nodeFound(cur, "tile"))
       {
-        Tile t = parseTile(cur);
-        cout << t << endl;
-        levelData.tiles().push_back(t);
+        levelData.tiles().push_back(parseTile(cur));
       }
       
       cur = cur->next;
@@ -134,7 +135,7 @@ private:
     return true;
   }
 
-  Sound parseSound(xmlNodePtr& cur)
+  Sound parseSound(xmlNodePtr cur)
   {
     return Sound(attr(cur, "name"), attr(cur, "res"));
   }
@@ -144,7 +145,7 @@ private:
     return Tile(
       boost::lexical_cast<int>(attr(cur, "id")),
       attr(cur, "res"),
-      optionalBoolAttr(cur, "solid"),
+      optionalBoolAttr(cur, "static"),
       optionalBoolAttr(cur, "breakable"),
       optionalBoolAttr(cur, "background"),
       optionalBoolAttr(cur, "goal"),
@@ -247,8 +248,8 @@ private:
 
   bool optionalBoolAttr(xmlNodePtr& cur, const string& name)
   {
-    string t("true");
-    return attr(cur, name).compare(t) == 0;
+    static const string T("true");
+    return attr(cur, name).compare(T) == 0;
   }
 
   int optionalIntAttr(xmlNodePtr& cur, const string& name)

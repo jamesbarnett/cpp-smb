@@ -8,6 +8,7 @@
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
 #include "initializer.hpp"
+#include "game_object.hpp"
 #include "level_data_parser.hpp"
 #include "resource_manager.hpp"
 #include "scene_manager.hpp"
@@ -18,6 +19,7 @@ namespace fs = boost::filesystem;
 class Game
 {
 private:
+  GameObject* gameObject_;
   SDL_Window* mainWindow_;
   SDL_Renderer* renderer_;
   Initializer* initializer_;
@@ -57,16 +59,23 @@ private:
   }
 
 public:
-  Game() : mainWindow_(nullptr), renderer_(nullptr), isRunning_(true)
+  Game() : gameObject_(nullptr)
+    , mainWindow_(nullptr)
+    , renderer_(nullptr)
+    , isRunning_(true)
   {
     initializer_ = new Initializer;
   }
 
   ~Game()
   {
+    SDL_DestroyRenderer(renderer_);
     SDL_DestroyWindow(mainWindow_);
     delete initializer_;
   }
+
+  inline GameObject* gameObject() const { return gameObject_; }
+  inline void gameObject(GameObject* val) { gameObject_ = val; }
 
   bool init()
   {
@@ -79,7 +88,10 @@ public:
     LevelDataParser levelDataParser(resources / levelDataFile);
     auto levelData = levelDataParser.parse();
 
-    cout << "Level data parsed!" << endl;
+    GameObject* gameObject = new GameObject("Super Mario Bros in C++!");
+
+    gameObject->window(mainWindow_);
+    gameObject->renderer(renderer_);
 
     ResourceManager::instance()->renderer(renderer_);
     levelData.load();

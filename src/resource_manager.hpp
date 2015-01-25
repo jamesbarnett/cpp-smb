@@ -17,7 +17,7 @@ class ResourceManager
 {
 private:  
   static ResourceManager* instance_;
-  map<string, SDL_Texture*> textures_;
+  map<int, SDL_Texture*> textures_;
   map<string, TTF_Font*> fonts_;
   map<string, Mix_Music*> music_;
   map<string, Mix_Chunk*> sounds_;
@@ -67,7 +67,7 @@ public:
   SDL_Renderer* renderer() const { return renderer_; }
   void renderer(SDL_Renderer* renderer) { renderer_ = renderer; }
   
-  void loadTextureFromFile(const fs::path& path, const string& name)
+  void loadTextureFromFile(const int id, const fs::path& path)
   {
     SDL_Texture* texture = IMG_LoadTexture(renderer_, path.string().c_str());
     if (texture == nullptr)
@@ -75,14 +75,14 @@ public:
       throw new runtime_error("Failed to load texture!");
     }
 
-    textures_.insert(pair<string, SDL_Texture*>(name, texture));
+    textures_.insert(pair<int, SDL_Texture*>(id, texture));
   }
 
-  SDL_Texture* getTexture(const string& name)
+  SDL_Texture* getTexture(const int id)
   {
-    if (textures_.find(name) != textures_.end())
+    if (textures_.find(id) != textures_.end())
     {
-      return textures_[name];
+      return textures_[id];
     }
     else
     {

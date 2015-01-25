@@ -45,28 +45,28 @@ public:
 
   inline int tileHeight() const { return tileHeight_; }
   inline void tileHeight(int val) { tileHeight_ = val; }
-  
+
   inline int screenWidth() const { return screenWidth_; }
   inline void screenWidth(int val) { tileWidth_ = val; }
- 
+
   inline int screenHeight() const { return screenHeight_; }
   inline void screenHeight(int val) { screenHeight_ = val; }
- 
+
   inline int scrollSpeed() const { return scrollSpeed_; }
   inline void scrollSpeed(int val) const { scrollSpeed_ = val; }
- 
+
   inline int screenTilesPerColumn() const { return screenTilesPerColumn_; }
   inline void screenTilesPerColumn(int val) { screenTilesPerColumn_ = val; }
- 
+
   inline int screenTilesPerRow() const { return screenTilesPerRow_; }
   inline void screenTilesPerRow(int val) { screenTilesPerRow_ = val; }
- 
+
   inline int originXtile() const { return originXtile_; }
   inline void originXtile(int val) { originXtile_ = val; }
- 
+
   inline int xOffset() const { return xOffset_; }
   inline void xOffset(int val) { xOffset_ = val; }
- 
+
   inline int yOffset() const { return yOffset_; }
   inline int yOffset(int val) { yOffset = val; }
 
@@ -138,7 +138,29 @@ public:
     {
       for (int y = originYtile_; screenTilesPerColumn_ + originYtile_ + 2; ++y)
       {
-        
+        if (!level_.tiles(x, y).background())
+        {
+          if (!level_.tiles(x, y).entity().empty())
+          {
+            string entityName = level_.tiles(x, y).entity();
+
+            // Create a background tile to replace the entity
+            // TODO: implement
+
+            SCREEN_LOCATION screenLocation = tileToScreen(x, y);
+
+            // TODO: Let's implment the entity crap later
+          }
+          else
+          {
+            SDL_Texture* texture =
+              ResourceManager::instance()->getTexture(level_.tiles(x, y)).id();
+            int x1 = (tileHeight_ * screenY) + yOffset_;
+            int y1 = (tileWidth_ * screenX) + xOffset_;
+
+            // Get position and draw tile
+          }
+        }
       }
     }
   }

@@ -32,7 +32,8 @@ public:
  
   int cols() { return tileMap_.cols(); }
   int rows() { return tileMap_.rows(); }
- 
+
+  Tile tiles(int x, int y) { return tiles_[x][y]; }
   friend ostream& operator<<(ostream&, const Level&);
 };
 

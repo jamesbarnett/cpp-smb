@@ -2,6 +2,7 @@
 #define LEVEL_DATA_HPP__
 
 #include <iostream>
+#include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/foreach.hpp>
 #include "sound.hpp"
@@ -34,7 +35,7 @@ public:
   vector<Level>& levels() { return levels_; }
 
   void tileWidth(int value) { tileWidth_ = value; }
-  int tileWidth() { return tileWidth_; } 
+  int tileWidth() { return tileWidth_; }
   void tileHeight(int value) { tileHeight_ = value; }
 
   int tileHeight() { return tileHeight_; }
@@ -51,7 +52,7 @@ public:
 
     ResourceManager::instance()->loadMusicFromFile(
       resources / fs::path(song.res()), song.name());
-   
+
     for (auto s : sounds_)
     {
       ResourceManager::instance()->loadSoundFromFile(
@@ -60,10 +61,26 @@ public:
 
     for (auto t : tiles_)
     {
-
+      if (!t.res().empty())
+      {
+        ResourceManager::instance()->loadTextureFromFile(
+          t.id(), resources / safeResource(t.res()));
+      }
     }
 
     return true;
+  }
+
+  fs::path safeResource(const string& str)
+  {
+    if (!str.empty() && !boost::algorithm::ends_with(str, ".png"))
+    {
+      return fs::path(string(str + ".png"));
+    }
+    else
+    {
+      return fs::path(str);
+    }
   }
 };
 

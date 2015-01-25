@@ -31,6 +31,9 @@ public:
     , frames_(frames)
     , value_(value) {}
 
+  inline int id() const { return id_; }
+  inline string res() const { return resource_; }
+
   friend ostream& operator<<(ostream&, const Tile&);
 };
 
