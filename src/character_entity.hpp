@@ -53,6 +53,75 @@ public:
       acceleration(-acceleration());
     }
   }
+
+  virtual void update()
+  {
+    if (!visible()) return;
+
+    if (!isStatic())
+    {
+      if (isJumping())
+      {
+        velocity(velocity() + 5);
+      }
+      else
+      {
+        velocity(0);
+      }
+
+      y(y() + velocity());
+      isJumping(true);
+    }
+
+    if (isMoving())
+    {
+      if (facing_ == Direction::RIGHT)
+      {
+        x(x() + acceleration());
+
+        // get next sprite
+      }
+
+      if (facing_ == Direction::LEFT)
+      {
+        if (!allowOffscreen())
+        {
+          if (x() > 0) x(x() + acceleration());
+        }
+        else
+        {
+          x(x() + acceleration());
+        }
+
+        // get next sprite
+      }
+    }
+
+    if (!isMoving())
+    {
+      if (facing_ == Direction::RIGHT)
+      {
+        // get first sprite for direction
+      }
+
+      if (facing_ == Direction::LEFT)
+      {
+        // get first sprite for direction
+      }
+    }
+
+    if (velocity() != 0 && facing_ == Direction::RIGHT)
+    {
+      // get first sprite
+    }
+
+    if (velocity() != 0 && facing_ == Direction::LEFT)
+    {
+      // get first sprite
+    }
+
+    Entity::move();
+  }
 };
 
 #endif
