@@ -20,15 +20,15 @@ private:
   bool delete_;
   SDL_Texture* texture_;
   GameObject* gameObject_;
+  bool isStatic_;
 
 public:
   Entity(GameObject* gameObject) : name_(""), x_(0), y_(0), visible_(false)
     , velocity_(0), acceleration_(0), delete_(false)
-    , texture_(nullptr), gameObject_(nullptr)
+    , texture_(nullptr), gameObject_(nullptr), isStatic_(false)
   {
-    gameObject_ = gameObject; 
+    gameObject_ = gameObject;
   }
-
 
   inline string name() const { return name_; }
   inline void name(const string& val) { name_ = val; }
@@ -54,9 +54,14 @@ public:
   inline SDL_Texture* texture() const { return texture_; }
   inline void texture(SDL_Texture* val) { texture_ = val; }
 
+  inline bool isStatic() const { return isStatic_; }
+  inline void isStatic(bool val) { isStatic_ = val; }
+
   // maybe make these pure virtual functions?
   virtual void initialize() {}
+
   virtual void draw() {}
+
   virtual void udpate(long msecs)
   {
     cout << msecs << endl; // temporary to silence clang warnings

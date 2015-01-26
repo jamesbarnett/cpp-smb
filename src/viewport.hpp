@@ -2,6 +2,7 @@
 #define VIEWPORT_HPP__
 
 #include <iostream>
+#include <SDL2/SDL.h>
 #include "direction.hpp"
 #include "level.hpp"
 #include "entity.hpp"
@@ -23,6 +24,7 @@ typedef struct tagTILE_LOCATION
 class Viewport
 {
 private:
+  GameObject* gameObject_;
   int tileWidth_;
   int tileHeight_;
   int screenWidth_;
@@ -40,6 +42,22 @@ private:
   vector<Entity> backSprites_;
 
 public:
+  Viewport(GameObject* gameObject, int tileWidth, int tileHeight, Level* level) :
+    , gameObject_(nullptr), tileWidth_(tileWidth), tileHeight_(tileHeight)
+    , level_(level)
+  {
+    gameObject_ = gameObject;
+
+    int w, h;
+
+    SDL_GetWindowSize(gameObject_->window(), &w, &h);
+
+    screenWidth_ = w;
+    screenHeight_ = h;
+    screenTilesPerRow_ = screenWidth_ / tileWidth_;
+    screenTilesPerColumn_ = screenHeight_ / tileHeight_;
+  }
+
   inline int tileWidth() const { return tileWidth_; }
   inline void tileWidth(int val) { tileWidth_ = val; }
 
@@ -168,8 +186,13 @@ public:
             SDL_RenderCopy(gameObject_->renderer(), texture, nullptr, rect);
           }
         }
+
+        ++screenY;
       }
     }
+
+    screenY = -1;
+    ++screenX;
   }
 
   TILE_LOCATION screenToTile(int x, int y) const

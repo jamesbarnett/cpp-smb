@@ -1,7 +1,6 @@
 #ifndef SOUND_HPP__
 #define SOUND_HPP__
 
-
 using namespace std;
 
 class Sound
@@ -29,3 +28,4 @@ ostream& operator<<(ostream& os, const Sound& rhs)
 }
 
 #endif
+

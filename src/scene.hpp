@@ -64,7 +64,10 @@ public:
 
   virtual void reset() {}
 
-  virtual void run() {}
+  virtual void run()
+  {
+
+  }
 
   virtual void update(long msecs)
   {
