@@ -11,6 +11,7 @@
 #include "level_data_parser.hpp"
 #include "resource_manager.hpp"
 #include "game_object.hpp"
+#include "start_scene.hpp"
 
 using namespace std;
 namespace fs = boost::filesystem;
@@ -94,6 +95,11 @@ public:
 
     ResourceManager::instance()->renderer(renderer_);
     levelData.load();
+
+    auto sceneManager = new SceneManager;
+    gameObject_->sceneManager(sceneManager);
+    StartScene* startScene = new StartScene(gameObject_);
+    sceneManager->addScene("start", startScene);
 
     return true;
   }

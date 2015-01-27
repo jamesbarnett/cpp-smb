@@ -46,13 +46,16 @@ public:
   inline void velocity(int val) { velocity_ = val; }
 
   inline int acceleration() const { return acceleration_; }
-  inline void accelaration(int val) { acceleration_ = val; }
+  inline void acceleration(int val) { acceleration_ = val; }
 
   inline bool del() const { return delete_; }
   inline void del(bool val) { delete_ = val; }
 
   inline SDL_Texture* texture() const { return texture_; }
   inline void texture(SDL_Texture* val) { texture_ = val; }
+
+  inline GameObject* gameObject() const { return gameObject_; }
+  inline void gameObject(GameObject* val) { gameObject_ = val; }
 
   inline bool isStatic() const { return isStatic_; }
   inline void isStatic(bool val) { isStatic_ = val; }
@@ -62,9 +65,9 @@ public:
 
   virtual void draw() {}
 
-  virtual void udpate(long msecs)
+  virtual void udpate(long ms)
   {
-    cout << msecs << endl; // temporary to silence clang warnings
+    if (ms % 2000 == 0) cout << "Entity#ms " << ms << endl;
   }
 
   virtual void move() {}

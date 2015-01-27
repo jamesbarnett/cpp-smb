@@ -68,6 +68,9 @@ public:
       }
     }
 
+    ResourceManager::instance()->loadFontFromFile(
+      resources / fs::path("arial.ttf"), 30, "Arial 30");
+
     return true;
   }
 

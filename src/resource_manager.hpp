@@ -147,12 +147,11 @@ public:
     sounds_.insert(pair<string, Mix_Chunk*>(name, sound));
   }
 
-
-  SpriteSheet* getSpriteSheet(const string& name)
+  Mix_Chunk* getSound(const string& name)
   {
-    if (spriteSheets_.find(name) != spriteSheets_.end())
+    if (sounds_.find(name) != sounds_.end())
     {
-      return spriteSheets_[name];
+      return sounds_[name];
     }
     else
     {
@@ -173,6 +172,18 @@ public:
     spriteSheet->texture(texture);
     spriteSheet->totalFrames(totalFrames);
     spriteSheets_.insert(pair<string, SpriteSheet*>(name, spriteSheet));
+  }
+
+  SpriteSheet* getSpriteSheet(const string& name)
+  {
+    if (spriteSheets_.find(name) != spriteSheets_.end())
+    {
+      return spriteSheets_[name];
+    }
+    else
+    {
+      return nullptr;
+    }
   }
 };
 

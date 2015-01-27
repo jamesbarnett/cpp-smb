@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <map>
+#include <boost/format.hpp>
 #include "scene.hpp"
 
 using namespace std;
@@ -21,7 +22,10 @@ public:
 
   void addScene(const string& name, Scene* scene)
   {
-    if (scenes_.find(name) != scenes_.end())
+    for (auto s : scenes_)
+      cout << s.second << endl;
+
+    if (scenes_.find(name) == scenes_.end())
     {
       scenes_.insert(pair<string, Scene*>(name, scene));
     }

@@ -6,7 +6,7 @@
 #include "entity.hpp"
 #include "direction.hpp"
 
-class CharacterEntity : Entity
+class CharacterEntity : public Entity
 {
 private:
   bool isPlayer_;
@@ -14,15 +14,15 @@ private:
   bool isMoving_;
   bool allowOffScreen_;
   GameObject* gameObject_;
-  SpriteSheet spriteSheet_;
+  SpriteSheet* spriteSheet_;
   Direction facing_;
 
 public:
-  CharacterEntity(GameObject* gameObject) : isPlayer_(false), isJumping_(false)
-    , isMoving_(false), allowOffScreen_(false), gameObject_(nullptr)
-  , facing_(Direction::RIGHT)
+  CharacterEntity(GameObject* gameObject) : Entity(gameObject), isPlayer_(false)
+    , isJumping_(false), isMoving_(false), allowOffScreen_(false)
+    , gameObject_(nullptr), spriteSheet_(nullptr), facing_(Direction::RIGHT)
   {
-    gameObject(gameObject_);
+    this->gameObject(gameObject_);
   }
 
   inline bool isPlayer() const { return isPlayer_; }
@@ -32,13 +32,13 @@ public:
   inline void isJumping(bool val) { isJumping_ = val; }
 
   inline bool isMoving() const { return isMoving_; }
-  inline void isJumping(bool val) { isMoving_ = val; }
+  inline void isMoving(bool val) { isMoving_ = val; }
 
   inline bool allowOffScreen() const { return allowOffScreen_; }
   inline void allowOffScreen(bool val) { allowOffScreen_ = val; }
 
-  inline SpriteSheet spriteSheet() { return spriteSheet_; }
-  inline void spriteSheet(const SpriteSheet& val) { spriteSheet_ = val; }
+  inline SpriteSheet* spriteSheet() const { return spriteSheet_; }
+  inline void spriteSheet(SpriteSheet* val) { spriteSheet_ = val; }
 
   Direction facing() const { return facing_; }
 
@@ -54,8 +54,10 @@ public:
     }
   }
 
-  virtual void update()
+  virtual void update(long ms)
   {
+    if (ms % 2000 == 0) cout << "CharacterEntity#ms " << ms << endl;
+
     if (!visible()) return;
 
     if (!isStatic())
@@ -84,7 +86,7 @@ public:
 
       if (facing_ == Direction::LEFT)
       {
-        if (!allowOffscreen())
+        if (!allowOffScreen())
         {
           if (x() > 0) x(x() + acceleration());
         }

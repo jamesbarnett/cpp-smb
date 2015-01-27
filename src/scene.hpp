@@ -58,20 +58,19 @@ public:
   inline Level level() const { return level_; }
   inline void level(const Level& val) { level_ = val; }
 
+  inline GameObject* gameObject() const { return gameObject_; }
+  
   void addEntity(const Entity& entity) { entities_.push_back(entity); }
 
   virtual void initialize() {}
 
   virtual void reset() {}
 
-  virtual void run()
-  {
+  virtual void run() {}
 
-  }
-
-  virtual void update(long msecs)
+  virtual void update(long ms)
   {
-    cout << msecs << endl; // appease clang for now
+    if (ms % 2000 == 0) cout << "Scene#update: ms = " << ms << endl;
   }
 
   virtual void move() {}
@@ -83,6 +82,16 @@ public:
   virtual void onPause() {}
 
   virtual void afterPause() {}
+
+  friend ostream& operator<<(ostream&, const Scene&);
 };
 
+ostream& operator<<(ostream& os, const Scene& rhs)
+{
+  os << rhs.name();
+
+  return os;
+}
+
 #endif
+
