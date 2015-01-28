@@ -43,7 +43,7 @@ private:
 
 public:
   Viewport(GameObject* gameObject, int tileWidth, int tileHeight, Level* level) :
-    , gameObject_(nullptr), tileWidth_(tileWidth), tileHeight_(tileHeight)
+    gameObject_(nullptr), tileWidth_(tileWidth), tileHeight_(tileHeight)
     , level_(level)
   {
     gameObject_ = gameObject;
@@ -71,7 +71,7 @@ public:
   inline void screenHeight(int val) { screenHeight_ = val; }
 
   inline int scrollSpeed() const { return scrollSpeed_; }
-  inline void scrollSpeed(int val) const { scrollSpeed_ = val; }
+  inline void scrollSpeed(int val) { scrollSpeed_ = val; }
 
   inline int screenTilesPerColumn() const { return screenTilesPerColumn_; }
   inline void screenTilesPerColumn(int val) { screenTilesPerColumn_ = val; }
@@ -86,7 +86,7 @@ public:
   inline void xOffset(int val) { xOffset_ = val; }
 
   inline int yOffset() const { return yOffset_; }
-  inline int yOffset(int val) { yOffset = val; }
+  inline void yOffset(int val) { yOffset_ = val; }
 
   bool isEndOfLevel() const
   {
@@ -156,11 +156,11 @@ public:
     {
       for (int y = originYtile_; screenTilesPerColumn_ + originYtile_ + 2; ++y)
       {
-        if (!level_.tiles(x, y).background())
+        if (!level_->tiles(x, y).background())
         {
-          if (!level_.tiles(x, y).entity().empty())
+          if (!level_->tiles(x, y).entity().empty())
           {
-            string entityName = level_.tiles(x, y).entity();
+            string entityName = level_->tiles(x, y).entity();
 
             // Create a background tile to replace the entity
             // TODO: implement
@@ -172,7 +172,7 @@ public:
           else
           {
             SDL_Texture* texture =
-              ResourceManager::instance()->getTexture(level_.tiles(x, y)).id();
+              ResourceManager::instance()->getTexture(level_->tiles(x, y).id());
             int x1 = (tileHeight_ * screenY) + yOffset_;
             int y1 = (tileWidth_ * screenX) + xOffset_;
 
@@ -183,7 +183,7 @@ public:
             rect.h = 64;
 
             // Get position and draw tile
-            SDL_RenderCopy(gameObject_->renderer(), texture, nullptr, rect);
+            SDL_RenderCopy(gameObject_->renderer(), texture, nullptr, &rect);
           }
         }
 

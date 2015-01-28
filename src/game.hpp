@@ -12,7 +12,8 @@
 #include "resource_manager.hpp"
 #include "game_object.hpp"
 #include "start_scene.hpp"
-
+#include "main_scene.hpp"
+ 
 using namespace std;
 namespace fs = boost::filesystem;
 
@@ -102,7 +103,8 @@ public:
     gameObject_->sceneManager(sceneManager_);
     StartScene* startScene = new StartScene(gameObject_);
     sceneManager_->addScene("start", startScene);
-    sceneManager_->startScene("start");
+    sceneManager_->addScene("main", new MainScene(gameObject_, &levelData.levels()[0]));
+    sceneManager_->startScene("main");
 
     return true;
   }

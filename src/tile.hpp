@@ -34,6 +34,10 @@ public:
   inline int id() const { return id_; }
   inline string res() const { return resource_; }
 
+  inline bool background() const { return background_; }
+
+  inline string entity() const { return entity_; }
+
   friend ostream& operator<<(ostream&, const Tile&);
 };
 
