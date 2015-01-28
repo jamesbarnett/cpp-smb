@@ -49,11 +49,14 @@ public:
 
   void defineFrames(Direction d, const vector<int>& frames)
   {
+    cout << "spriteFrames_find: " << (spriteFrames_.find(d) == spriteFrames_.end()) << endl;
+
     if (spriteFrames_.find(d) != spriteFrames_.end()) return;
 
     SPRITEFRAME sf;
 
     sf.currentFramePointer = 0;
+    sf.frames = vector<int>(frames.size());
     copy(frames.begin(), frames.end(), sf.frames.begin());
     spriteFrames_.insert(pair<Direction, SPRITEFRAME>(d, sf));
   }

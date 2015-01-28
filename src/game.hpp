@@ -23,7 +23,7 @@ private:
   SDL_Window* mainWindow_;
   SDL_Renderer* renderer_;
   Initializer* initializer_;
-
+  SceneManager* sceneManager_;
   bool isRunning_;
  
   bool createWindow()
@@ -62,6 +62,8 @@ public:
   Game() : gameObject_(nullptr)
     , mainWindow_(nullptr)
     , renderer_(nullptr)
+    , initializer_(nullptr)
+    , sceneManager_(nullptr)
     , isRunning_(true)
   {
     initializer_ = new Initializer;
@@ -96,10 +98,11 @@ public:
     ResourceManager::instance()->renderer(renderer_);
     levelData.load();
 
-    auto sceneManager = new SceneManager;
-    gameObject_->sceneManager(sceneManager);
+    sceneManager_ = new SceneManager;
+    gameObject_->sceneManager(sceneManager_);
     StartScene* startScene = new StartScene(gameObject_);
-    sceneManager->addScene("start", startScene);
+    sceneManager_->addScene("start", startScene);
+    sceneManager_->startScene("start");
 
     return true;
   }
@@ -118,7 +121,7 @@ public:
       
       while (timeAccumulator >= timeDelta)
       {
-        // update(timeDelta);
+        update(timeDelta);
         timeAccumulator -= timeDelta;
       }
 
@@ -137,13 +140,15 @@ public:
   }
 
 private:
-  // void update(long msecs)
-  // {
-  // }
+  void update(long ms)
+  {
+    sceneManager_->currentScene()->update(ms);
+  }
 
   void draw()
   {
     SDL_RenderClear(renderer_);
+    sceneManager_->currentScene()->draw();
     SDL_RenderPresent(renderer_);
   }
 };

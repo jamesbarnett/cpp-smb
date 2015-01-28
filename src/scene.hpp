@@ -88,7 +88,8 @@ public:
 
 ostream& operator<<(ostream& os, const Scene& rhs)
 {
-  os << rhs.name();
+  os << "Scene { name: " << rhs.name()
+     << " }";
 
   return os;
 }

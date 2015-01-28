@@ -7,6 +7,7 @@
 #include "scene.hpp"
 
 using namespace std;
+using namespace Entities;
 
 class StartScene : public Scene
 {
@@ -22,7 +23,7 @@ public:
 
   virtual void reset()
   {
-    Entities::Mario mario = Entities::Mario(gameObject());
+    Mario mario(gameObject());
     mario.x(430);
     mario.y(360);
 
