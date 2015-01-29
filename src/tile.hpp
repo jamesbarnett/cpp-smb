@@ -36,7 +36,7 @@ public:
 
   inline std::string entity() const { return entity_; }
 
-  friend ostream& operator<<(ostream&, const Tile&);
+  friend std::ostream& operator<<(std::ostream&, const Tile&);
 };
 
 std::ostream& operator<<(std::ostream&, const Tile&);

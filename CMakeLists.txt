@@ -35,7 +35,8 @@ add_executable(cpp-smb src/main.cpp
   src/player.cpp
   src/resource_manager.cpp
   src/tile_map.cpp
-  src/tile.cpp)
+  src/tile.cpp
+  src/scene.cpp)
 
 target_link_libraries(cpp-smb
   ${SDL2_LIBRARY}

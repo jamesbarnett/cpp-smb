@@ -6,15 +6,13 @@
 #include "entity.hpp"
 #include "level.hpp"
 
-using namespace std;
-
 class GameObject;
 
 class Scene
 {
 private:
   string name_;
-  vector<Entity> entities_;
+  std::vector<Entity> entities_;
   SDL_Texture* texture_;
   long currentTicks_;
   long targetTicks_;
@@ -34,10 +32,10 @@ public:
     gameObject_ = gameObject;
   }
 
-  inline string name() const { return name_; }
-  inline void name(const string& val) { name_ = val; }
+  inline std::string name() const { return name_; }
+  inline void name(const std::string& val) { name_ = val; }
 
-  inline vector<Entity> entities() const { return entities_; }
+  inline std::vector<Entity> entities() const { return entities_; }
 
   inline SDL_Texture* texture() const { return texture_; }
   inline void texture(SDL_Texture* val) { texture_ = val; }
@@ -90,16 +88,10 @@ public:
 
   virtual void afterPause() {}
 
-  friend ostream& operator<<(ostream&, const Scene&);
+  friend std::ostream& operator<<(std::ostream&, const Scene&);
 };
 
-ostream& operator<<(ostream& os, const Scene& rhs)
-{
-  os << "Scene { name: " << rhs.name()
-     << " }";
-
-  return os;
-}
+std::ostream& operator<<(std::ostream&, const Scene&);
 
 #endif
 

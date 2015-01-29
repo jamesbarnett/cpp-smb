@@ -1,6 +1,9 @@
 #ifndef TILE_MAP_HPP__
 #define TILE_MAP_HPP__
 
+#include <iostream>
+#include <vector>
+
 class TileMap
 {
 private:

@@ -1,5 +1,5 @@
 #include <iostream>
-#include "src/tile.hpp"
+#include "tile.hpp"
 
 using namespace std;
 
