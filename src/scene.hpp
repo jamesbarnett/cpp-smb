@@ -23,11 +23,13 @@ private:
   SDL_Color backgroundColor_;
   Level level_;
   GameObject* gameObject_;
+  SDL_Texture* backgroundTexture_;
 
 public:
   Scene(GameObject* gameObject) : name_(""), entities_(vector<Entity>())
     , texture_(nullptr), currentTicks_(0L), targetTicks_(0L), pause_(false)
     , pauseSeconds_(0), backgroundColor_({0, 0, 0, 0}), gameObject_(nullptr)
+    , backgroundTexture_(nullptr)
   {
     gameObject_ = gameObject;
   }
@@ -74,6 +76,11 @@ public:
   }
 
   virtual void move() {}
+
+  virtual void drawBackground()
+  {
+
+  }
 
   virtual void draw() {}
 

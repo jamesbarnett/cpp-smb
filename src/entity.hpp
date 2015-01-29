@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <SDL2/SDL.h>
+// #include "game_object.hpp"
 
 using namespace std;
 
@@ -63,7 +64,16 @@ public:
   // maybe make these pure virtual functions?
   virtual void initialize() {}
 
-  virtual void draw() {}
+  virtual void draw()
+  {
+    cout << "Entity#draw called" << endl;
+    if (visible_)
+    {
+      SDL_RenderCopy(gameObject_->renderer(), texture_, SDL_Rect({0, 0, 64, 64}),
+        SDL_Rect({x(), y(), 64, 64}));
+    }
+
+  }
 
   virtual void udpate(long ms)
   {

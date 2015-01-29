@@ -103,7 +103,7 @@ void drawStringBottom(SDL_Renderer* renderer, const string& str, int x, int y,
 
   static SDL_Rect rect;
 
-  rect.x = size.x;
+  rect.x = x;
   rect.y = size.y - h - y;
   rect.w = w;
   rect.h = h;

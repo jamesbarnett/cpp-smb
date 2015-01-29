@@ -61,6 +61,8 @@ public:
       cout << "Start Scene Entity: " << e << endl;
       e.draw();
     }
+
+
   }
 
   virtual void drawBackground() {}
