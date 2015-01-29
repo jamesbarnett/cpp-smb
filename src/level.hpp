@@ -12,7 +12,7 @@ private:
   int id_;
   Player player_;
   TileMap tileMap_;
-  vector<vector<Tile>> tiles_;
+  std::vector<std::vector<Tile>> tiles_;
 
 public:
   Level() {}
@@ -34,18 +34,10 @@ public:
   int rows() { return tileMap_.rows(); }
 
   Tile tiles(int x, int y) { return tiles_[x][y]; }
-  friend ostream& operator<<(ostream&, const Level&);
+  friend std::ostream& operator<<(std::ostream&, const Level&);
 };
 
-ostream& operator<<(ostream& os, const Level& rhs)
-{
-  os << "Level { id: " << rhs.id_
-     << " player: " << rhs.player_
-     << " tileMap: " << rhs.tileMap_
-     << " } ";
-
-  return os;
-}
+std::ostream& operator<<(std::ostream&, const Level&);
 
 #endif
 

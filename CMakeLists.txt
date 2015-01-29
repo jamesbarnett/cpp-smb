@@ -30,7 +30,13 @@ include_directories(${SDL2_INCLUDE_DIR}
   ${SDL2_MIXER_INCLUDE_DIR}
   ${SDL2_TTF_INCLUDE_DIR}
   ${LIBXML2_INCLUDE_DIR})
-add_executable(cpp-smb src/main.cpp src/resource_manager.cpp)
+add_executable(cpp-smb src/main.cpp
+  src/entity.cpp
+  src/player.cpp
+  src/resource_manager.cpp
+  src/tile_map.cpp
+  src/tile.cpp)
+
 target_link_libraries(cpp-smb
   ${SDL2_LIBRARY}
   ${SDL2_IMAGE_LIBRARY}

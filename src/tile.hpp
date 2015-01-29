@@ -3,24 +3,22 @@
 
 #include <iostream>
 
-using namespace std;
-
 class Tile
 {
 private:
   int id_;
-  string resource_;
+  std::string resource_;
   bool solid_;
   bool breakable_;
   bool background_;
   bool goal_;
-  string entity_;
+  std::string entity_;
   int frames_;
   int value_;
 
 public:
-  Tile(int id, string resource, bool solid, bool breakable, bool background, 
-      bool goal, string entity, int frames, int value) :
+  Tile(int id, std::string resource, bool solid, bool breakable, bool background, 
+      bool goal, std::string entity, int frames, int value) :
     id_(id)
     , resource_(resource)
     , solid_(solid)
@@ -32,29 +30,16 @@ public:
     , value_(value) {}
 
   inline int id() const { return id_; }
-  inline string res() const { return resource_; }
+  inline std::string res() const { return resource_; }
 
   inline bool background() const { return background_; }
 
-  inline string entity() const { return entity_; }
+  inline std::string entity() const { return entity_; }
 
   friend ostream& operator<<(ostream&, const Tile&);
 };
 
-ostream& operator<<(ostream& os, const Tile& rhs)
-{
-  os << "Tile { id: "
-     << rhs.id_ << " resource: " << rhs.resource_
-     << " solid: " << rhs.solid_
-     << " breakable: " << rhs.breakable_
-     << " background: " << rhs.background_
-     << " goal: " << rhs.goal_
-     << " entity: " << rhs.entity_
-     << " frames: " << rhs.frames_
-     << " value: " << rhs.value_
-     << " }";
-  return os;
-}
+std::ostream& operator<<(std::ostream&, const Tile&);
 
 #endif
 
