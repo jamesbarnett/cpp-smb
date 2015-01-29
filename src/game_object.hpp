@@ -7,6 +7,12 @@
 
 using namespace std;
 
+typedef struct tagSIZE
+{
+  int x;
+  int y;
+} SIZE;
+
 class GameObject
 {
 private:
@@ -29,6 +35,20 @@ public:
 
   inline SceneManager* sceneManager() const { return sceneManager_; }
   inline void sceneManager(SceneManager* val) { sceneManager_ = val; }
+
+  SIZE windowSize()
+  {
+    static int w, h;
+    SIZE size;
+
+    SDL_GetWindowSize(window_, &w, &h);
+
+    size.x = w;
+    size.y = h;
+
+    return size;
+  }
 };
 
 #endif
+

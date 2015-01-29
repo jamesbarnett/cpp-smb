@@ -82,6 +82,7 @@ public:
         x(x() + acceleration());
 
         // get next sprite
+        SDL_Rect rect = this->spriteSheet()->getNextSprite(Direction::RIGHT);
       }
 
       if (facing_ == Direction::LEFT)

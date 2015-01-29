@@ -71,7 +71,19 @@ public:
   }
 
   virtual void move() {}
+
+  friend ostream& operator<<(ostream&, const Entity&);
 };
+
+ostream& operator<<(ostream& os, const Entity& rhs)
+{
+  os << "Entity { name: " << rhs.name()
+     << " x: " << rhs.x()
+     << " y: " << rhs.y()
+     << " }";
+
+  return os;
+}
 
 #endif
 

@@ -38,7 +38,6 @@ public:
   void startScene(const string& name)
   {
     currentScene_ = scenes_[name];
-    cout << "currentScene_: " << *currentScene_ << endl;
     currentScene_->reset();
     currentScene_->run();
   }

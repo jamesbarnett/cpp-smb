@@ -104,7 +104,7 @@ public:
     StartScene* startScene = new StartScene(gameObject_);
     sceneManager_->addScene("start", startScene);
     sceneManager_->addScene("main", new MainScene(gameObject_, &levelData.levels()[0]));
-    sceneManager_->startScene("main");
+    sceneManager_->startScene("start");
 
     return true;
   }
@@ -150,6 +150,7 @@ private:
   void draw()
   {
     SDL_RenderClear(renderer_);
+    cout << "Game::draw called: " << sceneManager_->currentScene()->name() << endl;
     sceneManager_->currentScene()->draw();
     SDL_RenderPresent(renderer_);
   }

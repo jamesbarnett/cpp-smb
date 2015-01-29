@@ -49,8 +49,6 @@ public:
 
   void defineFrames(Direction d, const vector<int>& frames)
   {
-    cout << "spriteFrames_find: " << (spriteFrames_.find(d) == spriteFrames_.end()) << endl;
-
     if (spriteFrames_.find(d) != spriteFrames_.end()) return;
 
     SPRITEFRAME sf;
