@@ -43,6 +43,15 @@ public:
 
   virtual void update(long ms)
   {
+    static SDL_Event event;
+
+    if (SDL_PollEvent(&event))
+    {
+      if (event.type == SDL_KEYDOWN && event.key.keysym.scancode == SDL_SCANCODE_SPACE)
+      {
+        gameObject()->sceneManager()->startScene("main");
+      }
+    }
   }
 
   virtual void draw()
