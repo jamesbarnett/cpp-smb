@@ -13,12 +13,15 @@ Entity::Entity(GameObject* gameObject) : name_(""), x_(0), y_(0), visible_(false
 
 void Entity::draw()
 {
-  cout << "Entity#draw called" << endl;
   if (visible_)
   {
-    SDL_Rect src = {0, 0, 64, 64};
-    SDL_Rect dest = {x(), y(), 64, 64};
-    SDL_RenderCopy(gameObject_->renderer(), texture_, &src, &dest);
+    SDL_Rect dest;
+    dest.x = x();
+    dest.y = y();
+    dest.w = this->sprite().textureRect().w;
+    dest.h =  this->sprite().textureRect().h;
+
+    this->sprite().draw(gameObject_->renderer(), &dest);
   }
 }
 

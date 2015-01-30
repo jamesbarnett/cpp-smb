@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <SDL2/SDL.h>
+#include "sprite.hpp"
 
 using namespace std;
 
@@ -21,6 +22,7 @@ private:
   SDL_Texture* texture_;
   GameObject* gameObject_;
   bool isStatic_;
+  Sprite sprite_;
 
 public:
   Entity(GameObject* gameObject); 
@@ -54,6 +56,8 @@ public:
 
   inline bool isStatic() const { return isStatic_; }
   inline void isStatic(bool val) { isStatic_ = val; }
+
+  inline Sprite& sprite() { return sprite_; }
 
   // maybe make these pure virtual functions?
   virtual void initialize() {}

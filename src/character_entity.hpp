@@ -13,17 +13,13 @@ private:
   bool isJumping_;
   bool isMoving_;
   bool allowOffScreen_;
-  GameObject* gameObject_;
   SpriteSheet* spriteSheet_;
   Direction facing_;
 
 public:
   CharacterEntity(GameObject* gameObject) : Entity(gameObject), isPlayer_(false)
     , isJumping_(false), isMoving_(false), allowOffScreen_(false)
-    , gameObject_(nullptr), spriteSheet_(nullptr), facing_(Direction::RIGHT)
-  {
-    this->gameObject(gameObject_);
-  }
+    , spriteSheet_(nullptr), facing_(Direction::RIGHT) {}
 
   inline bool isPlayer() const { return isPlayer_; }
   inline void isPlayer(bool val) { isPlayer_ = val; }

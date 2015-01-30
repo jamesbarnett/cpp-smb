@@ -15,7 +15,6 @@ class StartScene : public Scene
 private:
   TTF_Font* font_;
   SDL_Color white_;
-  SDL_Rect marioRect_;
 
 public:
   StartScene(GameObject* gameObject) : Scene(gameObject)
@@ -33,8 +32,11 @@ public:
     Mario mario(gameObject());
     mario.x(430);
     mario.y(360);
-
-    marioRect_ = mario.spriteSheet()->getFirstSprite(Direction::RIGHT); 
+    mario.visible(true);
+    mario.spriteSheet()->totalFrames(10);
+    mario.sprite().texture(mario.spriteSheet()->texture());
+    SDL_Rect rect = mario.spriteSheet()->getFirstSprite(Direction::RIGHT); 
+    mario.sprite().textureRect(rect);
     this->addEntity(mario);
     Scene::reset();
   }
@@ -45,7 +47,6 @@ public:
 
   virtual void draw()
   {
-    cout << "StartScene::draw called" << endl;
     drawString(this->gameObject()->renderer(), "MARIO", 100, 100, font_, white_);
     drawString(this->gameObject()->renderer(), "000000", 100, 130, font_, white_);
     drawString(this->gameObject()->renderer(), "x 00", 300, 130, font_, white_);
@@ -58,11 +59,8 @@ public:
 
     for (auto e : entities())
     {
-      cout << "Start Scene Entity: " << e << endl;
       e.draw();
     }
-
-
   }
 
   virtual void drawBackground() {}

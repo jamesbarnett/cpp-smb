@@ -169,8 +169,8 @@ public:
 
     SpriteSheet* spriteSheet = new SpriteSheet();
 
-    spriteSheet->texture(texture);
     spriteSheet->totalFrames(totalFrames);
+    spriteSheet->texture(texture);
     spriteSheets_.insert(pair<string, SpriteSheet*>(name, spriteSheet));
   }
 

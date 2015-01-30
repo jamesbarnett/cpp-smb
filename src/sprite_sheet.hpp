@@ -37,7 +37,11 @@ public:
 
   void texture(SDL_Texture* texture)
   {
-    if (texture_ != nullptr) SDL_DestroyTexture(texture);
+    if (texture_ != nullptr) 
+    {
+      cout << "SpriteSheet destroying texture" << endl;
+      SDL_DestroyTexture(texture);
+    }
 
     texture_ = texture;
     int w;

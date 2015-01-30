@@ -171,6 +171,7 @@ public:
           }
           else
           {
+            cout << "Viewport#render called" << endl;
             SDL_Texture* texture =
               ResourceManager::instance()->getTexture(level_->tiles(x, y).id());
             int x1 = (tileHeight_ * screenY) + yOffset_;

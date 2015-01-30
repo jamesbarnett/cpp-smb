@@ -14,7 +14,7 @@ private:
 
 public:
   TileMap() { }
-  TileMap(int rows, int cols, std::string bgcolor, 
+  TileMap(int rows, int cols, const std::string& bgcolor, 
       std::vector<std::vector<int>> grid) : rows_(rows)
     , cols_(cols)
     , bgcolor_(bgcolor)

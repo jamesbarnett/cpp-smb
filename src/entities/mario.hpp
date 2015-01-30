@@ -22,8 +22,6 @@ public:
     dieSound_ = ResourceManager::instance()->getSound("mariodie");
     ResourceManager::instance()->loadSpriteSheetFromFile(
       (fs::path("./resources") / fs::path("sm-mario-sprites.png")), "sm-mario-sprites", 10);
-    auto ss = ResourceManager::instance()->getSpriteSheet("sm-mario-sprites");
-    cout << "SpriteSheet: " << ss << endl;
     this->spriteSheet(ResourceManager::instance()->getSpriteSheet("sm-mario-sprites"));
     this->spriteSheet()->defineFrames(Direction::RIGHT, vector<int>{0, 1, 2, 3 });
     this->spriteSheet()->defineFrames(Direction::LEFT, vector<int>{5, 6, 7, 8});
@@ -36,6 +34,8 @@ public:
     this->acceleration(10);
     this->allowOffScreen(false);
   }
+
+
 
   virtual void update(long ms)
   {
