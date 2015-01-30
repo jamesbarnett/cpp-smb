@@ -27,12 +27,12 @@ private:
   Initializer* initializer_;
   SceneManager* sceneManager_;
   bool isRunning_;
- 
+
   bool createWindow()
   {
-    mainWindow_ = SDL_CreateWindow("Hello World!", 
+    mainWindow_ = SDL_CreateWindow("Hello World!",
       SDL_WINDOWPOS_UNDEFINED,
-      SDL_WINDOWPOS_UNDEFINED, 
+      SDL_WINDOWPOS_UNDEFINED,
       1024, 768, SDL_WINDOW_SHOWN);
 
     if (nullptr == mainWindow_)
@@ -41,7 +41,7 @@ private:
       SDL_Quit();
       return false;
     }
-    
+
     return true;
   }
 
@@ -100,10 +100,11 @@ public:
     ResourceManager::instance()->renderer(renderer_);
     levelData.load();
 
+    cout << "Level data: " << levelData << endl;
+
     sceneManager_ = new SceneManager;
     gameObject_->sceneManager(sceneManager_);
-    StartScene* startScene = new StartScene(gameObject_);
-    sceneManager_->addScene("start", startScene);
+    sceneManager_->addScene("start", new StartScene(gameObject_));
     sceneManager_->addScene("main", new MainScene(gameObject_, &levelData.levels()[0]));
     sceneManager_->startScene("start");
 
@@ -121,7 +122,7 @@ public:
     while (isRunning_)
     {
       startTime = SDL_GetTicks();
-      
+
       while (timeAccumulator >= timeDelta)
       {
         update(timeDelta);
@@ -131,8 +132,6 @@ public:
       while (SDL_PollEvent(&event))
       {
         if (event.type == SDL_QUIT) isRunning_ = false;
-
-        // process user input here
       }
 
       draw();
@@ -151,7 +150,6 @@ private:
   void draw()
   {
     SDL_RenderClear(renderer_);
-    // cout << "Game::draw called: " << sceneManager_->currentScene()->name() << endl;
     sceneManager_->currentScene()->draw();
     SDL_RenderPresent(renderer_);
   }

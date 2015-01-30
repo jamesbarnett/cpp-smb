@@ -11,28 +11,27 @@
 #include "resource_manager.hpp"
 #include "tile_map.hpp"
 
-using namespace std;
 namespace fs = boost::filesystem;
 
 class LevelData
 {
 private:
   list<Sound> sounds_;
-  vector<Tile> tiles_;
-  vector<Level> levels_;
+  std::vector<Tile> tiles_;
+  std::vector<Level> levels_;
   int id_;
   int rows_;
   int columns_;
   int tileWidth_;
   int tileHeight_;
-  string backgroundColor_ = "000000";
+  std::string backgroundColor_ = "000000";
   TileMap tileMap_;
 
 public:
   LevelData() {}
   list<Sound>& sounds() { return sounds_; }
-  vector<Tile>& tiles() { return tiles_; }
-  vector<Level>& levels() { return levels_; }
+  std::vector<Tile>& tiles() { return tiles_; }
+  std::vector<Level>& levels() { return levels_; }
 
   void tileWidth(int value) { tileWidth_ = value; }
   int tileWidth() { return tileWidth_; }
@@ -78,14 +77,18 @@ public:
   {
     if (!str.empty() && !boost::algorithm::ends_with(str, ".png"))
     {
-      return fs::path(string(str + ".png"));
+      return fs::path(std::string(str + ".png"));
     }
     else
     {
       return fs::path(str);
     }
   }
+
+  friend ostream& operator<<(ostream&, const LevelData&);
 };
+
+std::ostream& operator<<(std::ostream&, const LevelData&);
 
 #endif
 

@@ -24,6 +24,7 @@ public:
   {
     if (scenes_.find(name) == scenes_.end())
     {
+      scene->initialize();
       scenes_.insert(pair<string, Scene*>(name, scene));
     }
     else

@@ -6,6 +6,7 @@
 #include "direction.hpp"
 #include "level.hpp"
 #include "entity.hpp"
+#include "sprite.hpp"
 
 using namespace std;
 
@@ -38,12 +39,13 @@ private:
   int yOffset_;
 
   Level* level_;
-
   vector<Entity> backSprites_;
+  Sprite backgroundSprite_;
 
 public:
   Viewport(GameObject* gameObject, int tileWidth, int tileHeight, Level* level) :
     gameObject_(nullptr), tileWidth_(tileWidth), tileHeight_(tileHeight)
+    , originXtile_(0), originYtile_(0), xOffset_(0), yOffset_(0)
     , level_(level)
   {
     gameObject_ = gameObject;
@@ -147,6 +149,8 @@ public:
 
   void render()
   {
+    cout << "Viewport#render called!" << endl;
+    cout << "(originXtile_, screenTilesPerRow_) = (" << originXtile_ << ", " << screenTilesPerRow_ << ")" << endl;
     backSprites_.clear();
 
     int screenX = 0;
@@ -156,8 +160,11 @@ public:
     {
       for (int y = originYtile_; screenTilesPerColumn_ + originYtile_ + 2; ++y)
       {
+        cout << "Tiles: (x, y): (" << x << ", " << y << ")" << endl;
+        cout << "Tiles(x, y): " << level_->tiles(x, y) << endl;
         if (!level_->tiles(x, y).background())
         {
+          cout << "Not a background tile" << endl;
           if (!level_->tiles(x, y).entity().empty())
           {
             string entityName = level_->tiles(x, y).entity();
@@ -171,7 +178,7 @@ public:
           }
           else
           {
-            cout << "Viewport#render called" << endl;
+            cout << "Viewport#render: background = true called" << endl;
             SDL_Texture* texture =
               ResourceManager::instance()->getTexture(level_->tiles(x, y).id());
             int x1 = (tileHeight_ * screenY) + yOffset_;
@@ -183,8 +190,10 @@ public:
             rect.w = 64;
             rect.h = 64;
 
-            // Get position and draw tile
-            SDL_RenderCopy(gameObject_->renderer(), texture, nullptr, &rect);
+            backgroundSprite_.texture(texture);
+            backgroundSprite_.textureRect(rect);
+            cout << "Drawing background sprite!" << endl;
+            backgroundSprite_.draw(gameObject_->renderer(), &rect);
           }
         }
 

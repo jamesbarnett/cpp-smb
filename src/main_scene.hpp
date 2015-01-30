@@ -16,9 +16,28 @@ public:
   MainScene(GameObject* gameObject, Level* level) : Scene(gameObject)
     , player_(CharacterEntity(gameObject)), viewport_(nullptr), level_(nullptr)
   {
-     
     level_ = level;
     viewport_ =  new Viewport(gameObject, 64, 64, level);
+  }
+
+  virtual void initialize()
+  {
+    cout << "MainScene#initialize called!" << endl;
+  }
+
+  virtual void update(long ms)
+  {
+    cout << "MainScene#update called with an entity count of " << entities().size() << "!" << endl;
+
+    for (auto e : entities())
+    {
+
+    }
+  }
+
+  virtual void draw()
+  {
+    viewport_->render();
   }
 };
 
