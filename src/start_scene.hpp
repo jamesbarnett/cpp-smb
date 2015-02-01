@@ -45,6 +45,8 @@ public:
   {
     static SDL_Event event;
 
+    silence(ms);
+
     if (SDL_PollEvent(&event))
     {
       if (event.type == SDL_KEYDOWN && event.key.keysym.scancode == SDL_SCANCODE_SPACE)
@@ -64,7 +66,7 @@ public:
     drawString(this->gameObject()->renderer(), "TIME", 830, 100, font_, white_);
     drawString(this->gameObject()->renderer(), "WORLD 1-1", 420, 300, font_, white_);
     drawString(this->gameObject()->renderer(), "x 3", 500, 380, font_, white_);
-    drawString(this->gameObject()->renderer(), "[SPACE] To Begin", 300, 580, font_, white_);
+    drawString(this->gameObject()->renderer(), "[SPACE] To Begin", 380, 580, font_, white_);
 
     for (auto e : entities())
     {

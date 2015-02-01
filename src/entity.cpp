@@ -6,7 +6,8 @@ using namespace std;
 
 Entity::Entity(GameObject* gameObject) : name_(""), x_(0), y_(0), visible_(false)
   , velocity_(0), acceleration_(0), delete_(false)
-  , texture_(nullptr), gameObject_(nullptr), isStatic_(false)
+  , texture_(nullptr), gameObject_(nullptr), isStatic_(false), originTileRow_(0)
+  , originTileCol_(0)
 {
   gameObject_ = gameObject;
 }

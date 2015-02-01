@@ -5,6 +5,7 @@
 #include <iostream>
 #include "entity.hpp"
 #include "direction.hpp"
+#include "sprite_sheet.hpp"
 
 class CharacterEntity : public Entity
 {

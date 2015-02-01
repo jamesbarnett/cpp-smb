@@ -23,6 +23,8 @@ private:
   GameObject* gameObject_;
   bool isStatic_;
   Sprite sprite_;
+  int originTileRow_;
+  int originTileCol_;
 
 public:
   Entity(GameObject* gameObject); 
@@ -58,6 +60,12 @@ public:
   inline void isStatic(bool val) { isStatic_ = val; }
 
   inline Sprite& sprite() { return sprite_; }
+
+  inline int originTileRow() const { return originTileRow_; }
+  inline void originTileRow(int val) { originTileRow_ = val; }
+
+  inline int originTileCol() const { return originTileCol_; }
+  inline void originTileCol(int val) { originTileCol_ = val; }
 
   // maybe make these pure virtual functions?
   virtual void initialize() {}

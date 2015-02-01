@@ -93,19 +93,17 @@ public:
     auto levelData = levelDataParser.parse();
 
     gameObject_ = new GameObject;
-
     gameObject_->window(mainWindow_);
     gameObject_->renderer(renderer_);
+    gameObject_->levelData(&levelData);
 
     ResourceManager::instance()->renderer(renderer_);
     levelData.load();
 
-    cout << "Level data: " << levelData << endl;
-
     sceneManager_ = new SceneManager;
     gameObject_->sceneManager(sceneManager_);
     sceneManager_->addScene("start", new StartScene(gameObject_));
-    sceneManager_->addScene("main", new MainScene(gameObject_, &levelData.levels()[0]));
+    sceneManager_->addScene("main", new MainScene(gameObject_));
     sceneManager_->startScene("start");
 
     return true;

@@ -21,26 +21,37 @@ private:
   std::vector<Level> levels_;
   int id_;
   int rows_;
-  int columns_;
+  int cols_;
   int tileWidth_;
   int tileHeight_;
   std::string backgroundColor_ = "000000";
   TileMap tileMap_;
 
 public:
-  LevelData() {}
-  list<Sound>& sounds() { return sounds_; }
+  LevelData() : id_(0), rows_(0), cols_(0), tileWidth_(0), tileHeight_(0) {}
+  LevelData(const LevelData& d);
+
+  std::list<Sound>& sounds() { return sounds_; }
   std::vector<Tile>& tiles() { return tiles_; }
   std::vector<Level>& levels() { return levels_; }
 
+  int id() const { return id_; }
+  void id(int val) { id_ = val; }
+
+  int rows() const { return rows_; }
+  void rows(int val) { rows_ = val; }
+
+  int cols() const { return cols_; }
+  void cols(int val) { cols_ = val; }
+
   void tileWidth(int value) { tileWidth_ = value; }
-  int tileWidth() { return tileWidth_; }
+  int tileWidth() const { return tileWidth_; }
+
   void tileHeight(int value) { tileHeight_ = value; }
+  int tileHeight() const { return tileHeight_; }
 
-  int tileHeight() { return tileHeight_; }
   void tileMap(const TileMap& value) { tileMap_ = value; }
-
-  TileMap& tileMap() { return tileMap_; }
+  const TileMap& tileMap() const { return tileMap_; }
 
   bool load()
   {
@@ -85,7 +96,9 @@ public:
     }
   }
 
-  friend ostream& operator<<(ostream&, const LevelData&);
+  LevelData& operator=(const LevelData&);
+
+  friend std::ostream& operator<<(std::ostream&, const LevelData&);
 };
 
 std::ostream& operator<<(std::ostream&, const LevelData&);

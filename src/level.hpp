@@ -16,24 +16,34 @@ private:
 
 public:
   Level() {}
-  Level(int id, const Player& player, const TileMap& tileMap) 
+  Level(int id, const Player& player, const TileMap& tileMap)
     : id_(id)
     , player_(player)
     , tileMap_(tileMap) {}
 
+  Level(const Level&);
+
   int id() const { return id_; }
   void id(int val) { id_ = val; }
-  
+
   Player player() const { return player_; }
   void player(const Player& val) { player_ = val; }
- 
+
   TileMap tileMap() const { return tileMap_; }
   void tileMap(const TileMap& val) { tileMap_ = val; }
- 
+
   int cols() { return tileMap_.cols(); }
   int rows() { return tileMap_.rows(); }
 
-  Tile tiles(int x, int y) { return tiles_[x][y]; }
+  std::vector<std::vector<Tile>>& tiles() { return tiles_; }
+  Tile& tiles(int x, int y) { return tiles_[x][y]; }
+
+  void tiles(int x, int y, const Tile& tile)
+  {
+    tiles_[x][y] = tile;
+  }
+
+  Level& operator=(const Level&);
   friend std::ostream& operator<<(std::ostream&, const Level&);
 };
 

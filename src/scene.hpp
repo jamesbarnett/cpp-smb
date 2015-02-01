@@ -5,8 +5,11 @@
 #include <SDL2/SDL.h>
 #include "entity.hpp"
 #include "level.hpp"
+#include "sprite.hpp"
 
 class GameObject;
+
+void silence(long ms);
 
 class Scene
 {
@@ -21,6 +24,7 @@ private:
   SDL_Color backgroundColor_;
   Level level_;
   GameObject* gameObject_;
+  Sprite backSprite_;
 
 public:
   Scene(GameObject* gameObject) : name_(""), entities_(vector<Entity>())
@@ -68,15 +72,12 @@ public:
 
   virtual void update(long ms)
   {
-    if (ms % 2000 == 0) cout << "Scene#update: ms = " << ms << endl;
+    silence(ms);
   }
 
   virtual void move() {}
 
-  virtual void drawBackground()
-  {
-
-  }
+  virtual void drawBackground();
 
   virtual void draw() {}
 

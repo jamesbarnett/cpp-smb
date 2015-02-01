@@ -26,8 +26,8 @@ private:
 
 public:
   LevelDataParser(const fs::path& path) : path_(path), doc_(nullptr), root_(nullptr)
-  { 
-    init(); 
+  {
+    init();
   }
 
   ~LevelDataParser()
@@ -39,7 +39,7 @@ public:
   {
     LevelData levelData;
     processFile(levelData);
-    
+
     return levelData;
   }
 
@@ -87,6 +87,52 @@ private:
       cur = cur->next;
     }
 
+    if (!buildTileGrid(levelData)) return false;
+
+    return true;
+  }
+
+  bool buildTileGrid(LevelData& levelData)
+  {
+    Level level = levelData.levels().at(0);
+
+    levelData.id(level.id());
+    levelData.rows(level.rows());
+    levelData.cols(level.cols());
+    levelData.tileMap(level.tileMap());
+
+    vector<vector<int>> grid(level.tileMap().grid().size());
+    int i = 0;
+
+    for (auto row : level.tileMap().grid())
+    {
+      copy(row.begin(), row.end(), back_inserter(grid[i]));
+      ++i;
+    }
+
+    vector<Tile> tiles;
+    copy(levelData.tiles().begin(), levelData.tiles().end(), back_inserter(tiles));
+
+    for (size_t x = 0; x < grid.size(); ++x)
+    {
+      level.tiles().push_back(vector<Tile>(grid.size()));
+
+      for (size_t y = 0; y < grid[x].size(); ++y)
+      {
+        vector<Tile>::iterator tile = find_if(tiles.begin(), tiles.end(),
+          [x,y,&level,&grid](Tile t) -> bool { return t.id() == grid[x][y]; });
+
+        if (tile == levelData.tiles().end())
+        {
+          stringstream err;
+          err << "Failed to find tile: " << x << "!";
+          throw runtime_error(err.str());
+        }
+
+        level.tiles()[x].push_back(*tile);
+      }
+    }
+
     return true;
   }
 
@@ -113,7 +159,7 @@ private:
       {
         levelData.tiles().push_back(parseTile(cur));
       }
-      
+
       cur = cur->next;
     }
 
@@ -145,43 +191,52 @@ private:
     return Tile(
       boost::lexical_cast<int>(attr(cur, "id")),
       attr(cur, "res"),
-      optionalBoolAttr(cur, "static"),
+      optionalBoolAttr(cur, "solid"),
       optionalBoolAttr(cur, "breakable"),
       optionalBoolAttr(cur, "background"),
       optionalBoolAttr(cur, "goal"),
       attr(cur, "entity"),
       optionalIntAttr(cur, "frames"),
-      optionalIntAttr(cur, "value")
+      optionalIntAttr(cur, "value"),
+      optionalBoolAttr(cur, "static")
     );
   }
 
   Level parseLevel(xmlNodePtr cur)
   {
-    return Level(optionalIntAttr(cur, "id"), 
-                 parsePlayer(cur->xmlChildrenNode),
-                 parseTileMap(cur->xmlChildrenNode));
+    auto level = Level(optionalIntAttr(cur, "id"),
+                       parsePlayer(cur->xmlChildrenNode),
+                       parseTileMap(cur->xmlChildrenNode));
+
+    return level;
   }
 
   Player parsePlayer(xmlNodePtr cur)
   {
-    return Player(optionalIntAttr(cur, "startrow"),
-                  optionalIntAttr(cur, "startcol"),
-                  attr(cur, "facing"));
+    cur = cur->next;
+
+    auto player = Player(optionalIntAttr(cur, "startrow"),
+                         optionalIntAttr(cur, "startcol"),
+                         attr(cur, "facing"));
+
+    return player;
   }
 
   TileMap parseTileMap(xmlNodePtr cur)
   {
     cur = cur->next;
+    cur = cur->next; // player to text
+    cur = cur->next; // text to tilemap
 
-    return TileMap(optionalIntAttr(cur, "rows"),
-                   optionalIntAttr(cur, "cols"),
-                   attr(cur, "bgcolor"),
-                   parseRows(cur));
+    auto tileMap = TileMap(optionalIntAttr(cur, "rows"),
+                           optionalIntAttr(cur, "cols"),
+                           attr(cur, "bgcolor"),
+                           parseRows(cur));
+    return tileMap;
   }
 
   vector<vector<int>> parseRows(xmlNodePtr cur)
   {
-    cur = cur->next->next;
     vector<vector<int>> rows;
     int rowIndex = 0;
 
@@ -209,7 +264,7 @@ private:
             if (cur != nullptr) cur = cur->next;
           }
         }
-      } 
+      }
 
       if (cur != nullptr) cur = cur->next;
     }
@@ -266,3 +321,4 @@ private:
 };
 
 #endif
+

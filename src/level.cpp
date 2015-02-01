@@ -1,7 +1,27 @@
 #include <iostream>
-#include "tile.hpp"
+#include "level.hpp"
 
 using namespace std;
+
+Level::Level(const Level& rhs)
+{
+  id_ = rhs.id_;
+  player_ = rhs.player_;
+  tileMap_ = rhs.tileMap_;
+  tiles_.reserve(rhs.tiles_.size());
+  copy(rhs.tiles_.begin(), rhs.tiles_.end(), tiles_.begin());
+}
+
+Level& Level::operator=(const Level& rhs)
+{
+  id_ = rhs.id_;
+  player_ = rhs.player_;
+  tileMap_ = rhs.tileMap_;
+  tiles_.reserve(rhs.tiles_.size());
+  copy(rhs.tiles_.begin(), rhs.tiles_.end(), tiles_.begin());
+
+  return *this;
+}
 
 ostream& operator<<(ostream& os, const Level& rhs)
 {

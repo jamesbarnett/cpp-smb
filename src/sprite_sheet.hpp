@@ -2,6 +2,7 @@
 #define SPRITE_SHEET_HPP__
 
 #include <iostream>
+#include <vector>
 #include <map>
 #include <SDL2/SDL.h>
 #include "direction.hpp"

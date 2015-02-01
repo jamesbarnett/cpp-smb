@@ -13,21 +13,15 @@ private:
   Level* level_;
 
 public:
-  MainScene(GameObject* gameObject, Level* level) : Scene(gameObject)
-    , player_(CharacterEntity(gameObject)), viewport_(nullptr), level_(nullptr)
-  {
-    level_ = level;
-    viewport_ =  new Viewport(gameObject, 64, 64, level);
-  }
+  MainScene(GameObject* gameObject);
 
   virtual void initialize()
   {
-    cout << "MainScene#initialize called!" << endl;
   }
 
   virtual void update(long ms)
   {
-    cout << "MainScene#update called with an entity count of " << entities().size() << "!" << endl;
+    silence(ms);
 
     for (auto e : entities())
     {
@@ -37,7 +31,34 @@ public:
 
   virtual void draw()
   {
-    viewport_->render();
+  }
+
+  virtual void drawBackground()
+  {
+    vector<Entity> entities = viewport_->render();
+    CharacterEntity* c = nullptr;
+
+    for (auto e : entities)
+    {
+      if (e.name().compare("goomba") == 0) {}
+      else if (e.name().compare("koopatroopa") == 0) {}
+      else if (e.name().compare("coinbox") == 0) {}
+      else if (e.name().compare("emptycoinbox") == 0) {}
+      else if (e.name().compare("rock") == 0) {}
+      else if (e.name().compare("brick") == 0) {}
+      else if (e.name().compare("block") == 0) {}
+      else if (e.name().compare("goal") == 0) {}
+      else if (e.name().compare("pipetopleft") == 0) {}
+      else if (e.name().compare("pipetopright") == 0) {}
+      else if (e.name().compare("pipeleft") == 0) {}
+      else if (e.name().compare("piperight") == 0) {}
+
+      c->x(e.x());
+      c->y(e.y());
+      c->originTileCol(e.originTileCol());
+      c->originTileRow(e.originTileRow());
+    }
+
   }
 };
 

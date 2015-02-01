@@ -37,28 +37,12 @@ private:
   int originYtile_;
   int xOffset_;
   int yOffset_;
-
   Level* level_;
   vector<Entity> backSprites_;
   Sprite backgroundSprite_;
 
 public:
-  Viewport(GameObject* gameObject, int tileWidth, int tileHeight, Level* level) :
-    gameObject_(nullptr), tileWidth_(tileWidth), tileHeight_(tileHeight)
-    , originXtile_(0), originYtile_(0), xOffset_(0), yOffset_(0)
-    , level_(level)
-  {
-    gameObject_ = gameObject;
-
-    int w, h;
-
-    SDL_GetWindowSize(gameObject_->window(), &w, &h);
-
-    screenWidth_ = w;
-    screenHeight_ = h;
-    screenTilesPerRow_ = screenWidth_ / tileWidth_;
-    screenTilesPerColumn_ = screenHeight_ / tileHeight_;
-  }
+  Viewport(GameObject* gameObject, int tileWidth, int tileHeight, Level* level);
 
   inline int tileWidth() const { return tileWidth_; }
   inline void tileWidth(int val) { tileWidth_ = val; }
@@ -147,63 +131,7 @@ public:
     return false;
   }
 
-  void render()
-  {
-    cout << "Viewport#render called!" << endl;
-    cout << "(originXtile_, screenTilesPerRow_) = (" << originXtile_ << ", " << screenTilesPerRow_ << ")" << endl;
-    backSprites_.clear();
-
-    int screenX = 0;
-    int screenY = -1;
-
-    for (int x = originXtile_; screenTilesPerRow_ + originXtile_; ++x)
-    {
-      for (int y = originYtile_; screenTilesPerColumn_ + originYtile_ + 2; ++y)
-      {
-        cout << "Tiles: (x, y): (" << x << ", " << y << ")" << endl;
-        cout << "Tiles(x, y): " << level_->tiles(x, y) << endl;
-        if (!level_->tiles(x, y).background())
-        {
-          cout << "Not a background tile" << endl;
-          if (!level_->tiles(x, y).entity().empty())
-          {
-            string entityName = level_->tiles(x, y).entity();
-
-            // Create a background tile to replace the entity
-            // TODO: implement
-
-            SCREEN_LOCATION screenLocation = tileToScreen(x, y);
-
-            // TODO: Let's implment the entity crap later
-          }
-          else
-          {
-            cout << "Viewport#render: background = true called" << endl;
-            SDL_Texture* texture =
-              ResourceManager::instance()->getTexture(level_->tiles(x, y).id());
-            int x1 = (tileHeight_ * screenY) + yOffset_;
-            int y1 = (tileWidth_ * screenX) + xOffset_;
-
-            SDL_Rect rect;
-            rect.x = x1;
-            rect.y = y1;
-            rect.w = 64;
-            rect.h = 64;
-
-            backgroundSprite_.texture(texture);
-            backgroundSprite_.textureRect(rect);
-            cout << "Drawing background sprite!" << endl;
-            backgroundSprite_.draw(gameObject_->renderer(), &rect);
-          }
-        }
-
-        ++screenY;
-      }
-    }
-
-    screenY = -1;
-    ++screenX;
-  }
+  vector<Entity> render();
 
   TILE_LOCATION screenToTile(int x, int y) const
   {

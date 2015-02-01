@@ -13,16 +13,24 @@ private:
   std::vector<std::vector<int>> grid_;
 
 public:
-  TileMap() { }
-  TileMap(int rows, int cols, const std::string& bgcolor, 
+  TileMap() : rows_(0), cols_(0), bgcolor_("")
+    , grid_(std::vector<std::vector<int>>()) {}
+
+  TileMap(int rows, int cols, const std::string& bgcolor,
       std::vector<std::vector<int>> grid) : rows_(rows)
     , cols_(cols)
     , bgcolor_(bgcolor)
-    , grid_(grid) {}
+    , grid_(grid)
+  {
+  }
+
+  TileMap(const TileMap&);
 
   inline int rows() const { return rows_; }
   inline int cols() const { return cols_; }
+  std::vector<std::vector<int>>& grid() { return grid_; }
 
+  TileMap& operator=(const TileMap&);
   friend std::ostream& operator<<(std::ostream&, const TileMap&);
 };
 

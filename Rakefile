@@ -37,6 +37,7 @@ task :rebuild do
 end
 
 task :run do
+  STDOUT.sync = true
   puts `./build/cpp-smb`
 end
 
