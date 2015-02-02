@@ -94,17 +94,33 @@ private:
 
   bool buildTileGrid(LevelData& levelData)
   {
-    Level level = levelData.levels().at(0);
+    Level* level = &levelData.levels().at(0);
 
-    levelData.id(level.id());
-    levelData.rows(level.rows());
-    levelData.cols(level.cols());
-    levelData.tileMap(level.tileMap());
+    levelData.id(level->id());
+    levelData.rows(level->rows());
+    levelData.cols(level->cols());
+    levelData.tileMap(level->tileMap());
 
-    vector<vector<int>> grid(level.tileMap().grid().size());
+    vector<vector<int>> grid(level->tileMap().grid().size());
+
     int i = 0;
+    for (vector<vector<int>>::iterator it = level->tileMap().grid().begin();
+         it != level->tileMap().grid().end(); ++it)
+    {
+      int j = 0;
+      grid.push_back(vector<int>(level->tileMap().grid()[0].size()));
+      for (vector<int>::iterator it2 = it->begin(); it2 != it->end(); ++it2)
+      {
+        cout << "pushing back: " << *it2 << endl;
+        grid[i].push_back(*it2);
+        ++j;
+      }
+      ++i;
+    }
 
-    for (auto row : level.tileMap().grid())
+    i = 0;
+
+    for (auto row : levelData.levels()[0].tileMap().grid())
     {
       copy(row.begin(), row.end(), back_inserter(grid[i]));
       ++i;
@@ -115,7 +131,7 @@ private:
 
     for (size_t x = 0; x < grid.size(); ++x)
     {
-      level.tiles().push_back(vector<Tile>(grid.size()));
+      level->tiles().push_back(vector<Tile>(grid.size()));
 
       for (size_t y = 0; y < grid[x].size(); ++y)
       {
@@ -129,7 +145,7 @@ private:
           throw runtime_error(err.str());
         }
 
-        level.tiles()[x].push_back(*tile);
+        level->tiles()[x].push_back(*tile);
       }
     }
 

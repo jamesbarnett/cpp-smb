@@ -4,6 +4,7 @@
 #include "character_entity.hpp"
 #include "viewport.hpp"
 #include "scene.hpp"
+#include "entities/block.hpp"
 
 class MainScene : public Scene
 {
@@ -31,11 +32,15 @@ public:
 
   virtual void draw()
   {
+    drawBackground();
   }
 
   virtual void drawBackground()
   {
+    cout << "MainScene::drawBackground called!" << endl;
     vector<Entity> entities = viewport_->render();
+    cout << "entities.size: " << entities.size() << endl;
+
     CharacterEntity* c = nullptr;
 
     for (auto e : entities)
@@ -46,7 +51,7 @@ public:
       else if (e.name().compare("emptycoinbox") == 0) {}
       else if (e.name().compare("rock") == 0) {}
       else if (e.name().compare("brick") == 0) {}
-      else if (e.name().compare("block") == 0) {}
+      else if (e.name().compare("block") == 0) c = new Entities::Block(gameObject());
       else if (e.name().compare("goal") == 0) {}
       else if (e.name().compare("pipetopleft") == 0) {}
       else if (e.name().compare("pipetopright") == 0) {}

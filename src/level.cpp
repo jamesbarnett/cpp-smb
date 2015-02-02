@@ -28,7 +28,10 @@ ostream& operator<<(ostream& os, const Level& rhs)
   os << "Level { id: " << rhs.id_
      << " player: " << rhs.player_
      << " tileMap: " << rhs.tileMap_
-     << " } ";
+     << " tiles: ";
+
+  // copy(rhs.tiles().begin(), rhs.tiles().end(), ostream_iterator<Tile>(os, "\n"));
+  os << " } ";
 
   return os;
 }

@@ -15,6 +15,9 @@ Viewport::Viewport(GameObject* gameObject, int tileWidth, int tileHeight, Level*
   screenHeight_ = h;
   screenTilesPerRow_ = screenWidth_ / tileWidth_;
   screenTilesPerColumn_ = screenHeight_ / tileHeight_;
+
+  cout << "level ptr: " << level << endl;
+  cout << "Level: " << *level << endl;
 }
 
 vector<Entity> Viewport::render()
@@ -30,6 +33,9 @@ vector<Entity> Viewport::render()
   {
     for (int y = originYtile_; screenTilesPerColumn_ + originYtile_ + 2; ++y)
     {
+      // cout << "x: " << x << ",y:" << y << endl;
+      // cout << "Tile: " << level_->tiles(x, y) << endl;
+
       if (!level_->tiles(x, y).background())
       {
         if (!level_->tiles(x, y).entity().empty())
@@ -45,11 +51,11 @@ vector<Entity> Viewport::render()
           }
 
           SCREEN_LOCATION screenLocation = tileToScreen(x, y);
-          Entity e2(gameObject_);
-          e2.name(entityName);
-          e2.x(screenLocation.X);
-          e2.y(screenLocation.Y);
-          newEntities.push_back(e2);
+          Entity namedEntity(gameObject_);
+          namedEntity.name(entityName);
+          namedEntity.x(screenLocation.X);
+          namedEntity.y(screenLocation.Y);
+          newEntities.push_back(namedEntity);
         }
         else
         {
@@ -61,12 +67,11 @@ vector<Entity> Viewport::render()
           SDL_Rect rect;
           rect.x = x1;
           rect.y = y1;
-          rect.w = 64;
-          rect.h = 64;
+          rect.w = tileWidth_;
+          rect.h = tileHeight_;
 
           backgroundSprite_.texture(texture);
           backgroundSprite_.textureRect(rect);
-          cout << "Drawing background sprite!" << endl;
           backgroundSprite_.draw(gameObject_->renderer(), &rect);
         }
       }
@@ -80,3 +85,4 @@ vector<Entity> Viewport::render()
 
   return newEntities;
 }
+
