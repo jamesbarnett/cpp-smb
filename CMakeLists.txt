@@ -37,6 +37,7 @@ add_executable(cpp-smb src/main.cpp
   src/resource_manager.cpp
   src/tile_map.cpp
   src/tile.cpp
+  src/tile_data.cpp
   src/scene.cpp
   src/level.cpp
   src/level_data.cpp

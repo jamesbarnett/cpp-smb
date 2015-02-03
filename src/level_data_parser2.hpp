@@ -43,6 +43,8 @@ public:
     LevelData levelData;
 
     levelData.sounds(sounds());
+    std::cout << "tileData: " << tileData() << std::endl;
+
     return levelData;
   }
 
@@ -81,7 +83,22 @@ private:
 
   TileData tileData()
   {
+    result_ = xmlXPathEvalExpression((const xmlChar*)"/levelData/tiles", xpathContext_);
+    xmlNodePtr node = result_->nodesetval->nodeTab[0];
 
+    TileData tileData;
+
+    tileData.width(optionalIntAttr(node, "width"));
+    tileData.height(optionalIntAttr(node, "height"));
+
+    result_ = xmlXPathEvalExpression((const xmlChar*)"/levelData/tiles/tile", xpathContext_);
+
+    for (int i = 0; i < result_->nodesetval->nodeNr; ++i)
+    {
+      tileData.addTile(parseTile(result_->nodesetval->nodeTab[i]));
+    }
+
+    return tileData;
   }
 
   Sound parseSound(xmlNodePtr node)
@@ -89,6 +106,34 @@ private:
     return Sound(attr(node, "name"), attr(node, "res"));
   }
 
+  Tile parseTile(xmlNodePtr cur)
+  {
+    return Tile(
+      boost::lexical_cast<int>(attr(cur, "id")),
+      attr(cur, "res"),
+      optionalBoolAttr(cur, "solid"),
+      optionalBoolAttr(cur, "breakable"),
+      optionalBoolAttr(cur, "background"),
+      optionalBoolAttr(cur, "goal"),
+      attr(cur, "entity"),
+      optionalIntAttr(cur, "frames"),
+      optionalIntAttr(cur, "value"),
+      optionalBoolAttr(cur, "static")
+    );
+  }
+
+  bool optionalBoolAttr(xmlNodePtr node, const std::string& name)
+  {
+    static const string T("true");
+    return attr(node, name).compare(T) == 0;
+  }
+
+  int optionalIntAttr(xmlNodePtr node, const std::string& name)
+  {
+    string val = attr(node, name);
+    if (!val.empty()) return boost::lexical_cast<int>(val);
+    else return -1;
+  }
 
   std::string attr(xmlNodePtr node, const std::string& name)
   {
