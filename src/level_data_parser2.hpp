@@ -11,6 +11,7 @@
 #include <libxml/parser.h>
 #include <libxml/xpath.h>
 #include <libxml/xpathInternals.h>
+#include "tile_data.hpp"
 #include "level_data.hpp"
 #include "sound.hpp"
 #include "tile.hpp"
@@ -69,12 +70,18 @@ private:
     xmlNodeSetPtr nodeset = result_->nodesetval;
 
     std::list<Sound> sounds = std::list<Sound>();
+
     for (int i = 0; i < nodeset->nodeNr; ++i)
     {
       sounds.push_back(parseSound(result_->nodesetval->nodeTab[i]));
     }
 
     return sounds;
+  }
+
+  TileData tileData()
+  {
+
   }
 
   Sound parseSound(xmlNodePtr node)
