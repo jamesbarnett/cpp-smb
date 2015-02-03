@@ -41,7 +41,6 @@ public:
   {
     LevelData levelData;
 
-    cout << "LevelDataParser2#parse called!" << endl;
     sounds();
     return levelData;
   }
@@ -69,14 +68,13 @@ private:
     result_ = xmlXPathEvalExpression((const xmlChar*)"/levelData/sounds/sound", xpathContext_);
     xmlNodeSetPtr nodeset = result_->nodesetval;
 
-    std::vector<Sound> ss = std::vector<Sound>();
+    std::vector<Sound> sounds = std::vector<Sound>();
     for (int i = 0; i < nodeset->nodeNr; ++i)
     {
-      cout << "Sound: " << parseSound(result_->nodesetval->nodeTab[i]) << endl;
-      ss.push_back(parseSound(result_->nodesetval->nodeTab[i]));
+      sounds.push_back(parseSound(result_->nodesetval->nodeTab[i]));
     }
 
-    return ss;
+    return sounds;
   }
 
   Sound parseSound(xmlNodePtr node)
@@ -85,7 +83,7 @@ private:
   }
 
 
-  string attr(xmlNodePtr node, const string& name)
+  std::string attr(xmlNodePtr node, const std::string& name)
   {
     const xmlChar* nameTag = (const xmlChar*)name.c_str();
     if (xmlGetProp(node, nameTag))
