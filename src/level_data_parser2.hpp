@@ -41,7 +41,7 @@ public:
   {
     LevelData levelData;
 
-    sounds();
+    levelData.sounds(sounds());
     return levelData;
   }
 
@@ -63,12 +63,12 @@ private:
     }
   }
 
-  std::vector<Sound> sounds()
+  std::list<Sound> sounds()
   {
     result_ = xmlXPathEvalExpression((const xmlChar*)"/levelData/sounds/sound", xpathContext_);
     xmlNodeSetPtr nodeset = result_->nodesetval;
 
-    std::vector<Sound> sounds = std::vector<Sound>();
+    std::list<Sound> sounds = std::list<Sound>();
     for (int i = 0; i < nodeset->nodeNr; ++i)
     {
       sounds.push_back(parseSound(result_->nodesetval->nodeTab[i]));

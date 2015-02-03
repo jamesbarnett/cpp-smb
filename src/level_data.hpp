@@ -32,6 +32,8 @@ public:
   LevelData(const LevelData& d);
 
   std::list<Sound>& sounds() { return sounds_; }
+  void sounds(const std::list<Sound>& val) { sounds_ = val; }
+
   std::vector<Tile>& tiles() { return tiles_; }
   std::vector<Level>& levels() { return levels_; }
 
