@@ -1,6 +1,7 @@
 #ifndef LEVEL_DATA_PARSER_HPP2__
 #define LEVEL_DATA_PARSER_HPP2__
 
+#include <cstdio> // This should be removed
 #include <iostream>
 #include <fstream>
 #include <boost/algorithm/string.hpp>
@@ -14,7 +15,6 @@
 #include "sound.hpp"
 #include "tile.hpp"
 
-using namespace std;
 namespace fs = boost::filesystem;
 
 class LevelDataParser2
@@ -42,7 +42,7 @@ public:
     LevelData levelData;
 
     cout << "LevelDataParser2#parse called!" << endl;
-
+    sounds();
     return levelData;
   }
 
@@ -61,6 +61,40 @@ private:
     if (nullptr == xpathContext_)
     {
       cout << "Failed to create new XPath context" << endl;
+    }
+  }
+
+  std::vector<Sound> sounds()
+  {
+    result_ = xmlXPathEvalExpression((const xmlChar*)"/levelData/sounds/sound", xpathContext_);
+    xmlNodeSetPtr nodeset = result_->nodesetval;
+
+    std::vector<Sound> ss = std::vector<Sound>();
+    for (int i = 0; i < nodeset->nodeNr; ++i)
+    {
+      cout << "Sound: " << parseSound(result_->nodesetval->nodeTab[i]) << endl;
+      ss.push_back(parseSound(result_->nodesetval->nodeTab[i]));
+    }
+
+    return ss;
+  }
+
+  Sound parseSound(xmlNodePtr node)
+  {
+    return Sound(attr(node, "name"), attr(node, "res"));
+  }
+
+
+  string attr(xmlNodePtr node, const string& name)
+  {
+    const xmlChar* nameTag = (const xmlChar*)name.c_str();
+    if (xmlGetProp(node, nameTag))
+    {
+      return string((const char*)(xmlGetProp(node, nameTag)));
+    }
+    else
+    {
+      return string("");
     }
   }
 };

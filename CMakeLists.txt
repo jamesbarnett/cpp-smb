@@ -33,6 +33,7 @@ include_directories(${SDL2_INCLUDE_DIR}
 add_executable(cpp-smb src/main.cpp
   src/entity.cpp
   src/player.cpp
+  src/sound.cpp
   src/resource_manager.cpp
   src/tile_map.cpp
   src/tile.cpp
