@@ -45,6 +45,7 @@ public:
     levelData.sounds(sounds());
     std::cout << "tileData: " << tileData() << std::endl;
     std::cout << "player: " << player() << std::endl;
+    std::cout << "tileMap: " << tileMap() << std::endl;
 
     return levelData;
   }
@@ -110,6 +111,26 @@ private:
     return parsePlayer(result_->nodesetval->nodeTab[0]);
   }
 
+  TileMap tileMap()
+  {
+    result_ = xmlXPathEvalExpression(
+      (const xmlChar*)"//levelData/levels/level/tilemap",
+      xpathContext_);
+
+    TileMap tileMap = parseTileMap(result_->nodesetval->nodeTab[0]);
+
+    result_ = xmlXPathEvalExpression(
+      (const xmlChar*)"//levelData/levels/level/tilemap/rows/row",
+      xpathContext_);
+
+    for (int i = 0; i < result_->nodesetval->nodeNr; ++i)
+    {
+      tileMap.addRow(parseRow(result_->nodesetval->nodeTab[i]));
+    }
+
+    return tileMap;
+  }
+
   Sound parseSound(xmlNodePtr node)
   {
     return Sound(attr(node, "name"), attr(node, "res"));
@@ -136,6 +157,37 @@ private:
     return Player(optionalIntAttr(node, "startrow"),
                   optionalIntAttr(node, "startcol"),
                   attr(node, "facing"));
+  }
+
+  TileMap parseTileMap(xmlNodePtr node)
+  {
+    TileMap tileMap;
+
+    tileMap.rows(optionalIntAttr(node, "rows"));
+    tileMap.cols(optionalIntAttr(node, "cols"));
+    tileMap.bgcolor(attr(node, "bgcolor"));
+
+    return tileMap;
+  }
+
+  std::vector<int> parseRow(xmlNodePtr node)
+  {
+    std::vector<string> ids;
+    xmlChar* text = xmlNodeGetContent(node);
+    string str((char*)text);
+    boost::split(ids, str,
+      [](char c) { return c == ','; }, boost::token_compress_on);
+    xmlFree(text);
+
+    vector<int> row;
+
+    for (auto id : ids)
+    {
+      boost::trim(id);
+      row.push_back(boost::lexical_cast<int>(id));
+    }
+
+    return row;
   }
 
   bool optionalBoolAttr(xmlNodePtr node, const std::string& name)
