@@ -16,6 +16,8 @@ private:
 public:
   MainScene(GameObject* gameObject);
 
+  Viewport* viewport() const { return viewport_; }
+
   virtual void initialize()
   {
   }
@@ -62,6 +64,8 @@ public:
       c->y(e.y());
       c->originTileCol(e.originTileCol());
       c->originTileRow(e.originTileRow());
+
+      entities.push_back(*c);
     }
   }
 };

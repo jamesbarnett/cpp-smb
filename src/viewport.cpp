@@ -16,6 +16,8 @@ Viewport::Viewport(GameObject* gameObject, int tileWidth, int tileHeight, Level*
   screenHeight_ = h;
   screenTilesPerRow_ = screenWidth_ / tileWidth_;
   screenTilesPerColumn_ = screenHeight_ / tileHeight_;
+
+  cout << "screenTilesPerRow: " << screenTilesPerRow_ << " screenTilesPerColumn: " << screenTilesPerColumn_ << endl;
 }
 
 vector<Entity> Viewport::render()
@@ -31,16 +33,18 @@ vector<Entity> Viewport::render()
   {
     for (int y = originYtile_; y < screenTilesPerColumn_ + originYtile_ + 2; ++y)
     {
+      // cout << "(x,y), (screenTilesPerRow+originXtile,screenTilesPerColumn+originYtile): (" << x << "," << y << "), ("
+      //      << screenTilesPerRow_ + originXtile_ << "," << screenTilesPerColumn_ + originXtile_ << ")" << endl;
       // cout << "(x,y): (" << x << "," << y << ")" << endl;
 
-      if (!level_->tiles(x, y).background())
+      if (!level_->tiles(y, x).background())
       {
-        if (!level_->tiles(x, y).entity().empty())
+        if (!level_->tiles(y, x).entity().empty())
         {
-          string entityName = level_->tiles(x, y).entity();
+          string entityName = level_->tiles(y, x).entity();
 
           // Create a background tile to replace the entity
-          if (!level_->tiles(x, y).isStatic())
+          if (!level_->tiles(y, x).isStatic())
           {
             Tile tile;
             tile.background(true);
@@ -57,7 +61,7 @@ vector<Entity> Viewport::render()
         else
         {
           SDL_Texture* texture =
-            ResourceManager::instance()->getTexture(level_->tiles(x, y).id());
+            ResourceManager::instance()->getTexture(level_->tiles(y, x).id());
           int x1 = (tileHeight_ * screenY) + yOffset_;
           int y1 = (tileWidth_ * screenX) + xOffset_;
 

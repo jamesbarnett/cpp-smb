@@ -1,11 +1,12 @@
-#ifndef BLOCK_HPP__
-#define BLOCK_HPP__
+#ifndef BRICK_HPP__
+#define BRICK_HPP__
 
 #include "../character_entity.hpp"
 
 namespace Entities
 {
-class Block : public CharacterEntity
+
+class Brick : public CharacterEntity
 {
 public:
   Block(GameObject*);
@@ -14,5 +15,6 @@ public:
 };
 
 }
+
 #endif
 

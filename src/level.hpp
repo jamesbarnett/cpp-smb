@@ -39,7 +39,11 @@ public:
 
   void initTileGrid(const std::vector<Tile>& tileTypes);
 
-  inline Tile tiles(int x, int y) const { return tiles_[x][y]; }
+  inline Tile tiles(int x, int y) const
+  {
+    std::cout << "tiles(x,y): " << x << "," << y << std::endl;
+    return tiles_[x][y];
+  }
   inline void tiles(int x, int y, const Tile& tile) { tiles_[x][y] = tile; }
 
   Level& operator=(const Level&);

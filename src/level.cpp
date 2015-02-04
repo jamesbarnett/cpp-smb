@@ -22,10 +22,13 @@ void Level::initTileGrid(const vector<Tile>& tileTypes)
 
   for (vector<vector<int>>::const_iterator it = tileMap_.grid().begin(); it != tileMap_.grid().end(); ++it)
   {
+    cout << "Level#initTileGrid: size x: " << it->size() << endl;
     tiles_.push_back(vector<Tile>(it->size()));
     int y = 0;
     for (vector<int>::const_iterator it2 = it->begin(); it2 != it->end(); ++it2)
     {
+      // cout << "Level#initTileGrid: size y: " << tiles_[x].size() << endl;
+
       vector<Tile>::const_iterator tile = find_if(tileTypes.begin(), tileTypes.end(),
         [x,y,this](Tile t) -> bool { return t.id() == tileMap_.grid()[x][y]; });
 
