@@ -27,12 +27,11 @@ vector<Entity> Viewport::render()
   int screenX = 0;
   int screenY = -1;
 
-  for (int x = originXtile_; screenTilesPerRow_ + originXtile_; ++x)
+  for (int x = originXtile_; x < screenTilesPerRow_ + originXtile_; ++x)
   {
-    for (int y = originYtile_; screenTilesPerColumn_ + originYtile_ + 2; ++y)
+    for (int y = originYtile_; y < screenTilesPerColumn_ + originYtile_ + 2; ++y)
     {
-      // cout << "x: " << x << ",y:" << y << endl;
-      // cout << "Tile: " << level_->tiles(x, y) << endl;
+      // cout << "(x,y): (" << x << "," << y << ")" << endl;
 
       if (!level_->tiles(x, y).background())
       {
