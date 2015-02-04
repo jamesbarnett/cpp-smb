@@ -1,5 +1,6 @@
 #include "viewport.hpp"
 #include "game_object.hpp"
+#include "resource_manager.hpp"
 
 Viewport::Viewport(GameObject* gameObject, int tileWidth, int tileHeight, Level* level) :
   gameObject_(nullptr), tileWidth_(tileWidth), tileHeight_(tileHeight)
@@ -15,9 +16,6 @@ Viewport::Viewport(GameObject* gameObject, int tileWidth, int tileHeight, Level*
   screenHeight_ = h;
   screenTilesPerRow_ = screenWidth_ / tileWidth_;
   screenTilesPerColumn_ = screenHeight_ / tileHeight_;
-
-  cout << "level ptr: " << level << endl;
-  cout << "Level: " << *level << endl;
 }
 
 vector<Entity> Viewport::render()

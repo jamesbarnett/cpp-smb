@@ -1,6 +1,23 @@
+#include <iterator>
 #include "tile_data.hpp"
 
 using namespace std;
+
+TileData& TileData::operator=(const TileData& rhs)
+{
+  width_ = rhs.width_;
+  height_ = rhs.height_;
+  copy(rhs.tileTypes_.begin(), rhs.tileTypes_.end(), back_inserter(tileTypes_));
+
+  return *this;
+}
+
+TileData::TileData(const TileData& rhs)
+{
+  width_ = rhs.width_;
+  height_ = rhs.height_;
+  copy(rhs.tileTypes_.begin(), rhs.tileTypes_.end(), back_inserter(tileTypes_));
+}
 
 ostream& operator<<(ostream& os, const TileData& rhs)
 {

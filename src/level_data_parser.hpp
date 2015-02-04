@@ -1,5 +1,5 @@
-#ifndef LEVEL_DATA_PARSER_HPP__
-#define LEVEL_DATA_PARSER_HPP__
+#ifndef LEVEL_DATA_PARSER_HPP2__
+#define LEVEL_DATA_PARSER_HPP2__
 
 #include <iostream>
 #include <fstream>
@@ -10,11 +10,11 @@
 #include <libxml/parser.h>
 #include <libxml/xpath.h>
 #include <libxml/xpathInternals.h>
+#include "tile_data.hpp"
 #include "level_data.hpp"
 #include "sound.hpp"
 #include "tile.hpp"
 
-using namespace std;
 namespace fs = boost::filesystem;
 
 class LevelDataParser
@@ -22,10 +22,12 @@ class LevelDataParser
 private:
   fs::path path_;
   xmlDocPtr doc_;
-  xmlNodePtr root_;
+  xmlXPathContextPtr xpathContext_;
+  xmlXPathObjectPtr result_;
 
 public:
-  LevelDataParser(const fs::path& path) : path_(path), doc_(nullptr), root_(nullptr)
+  LevelDataParser(const fs::path& path) : path_(path), doc_(nullptr)
+    , xpathContext_(nullptr)
   {
     init();
   }
@@ -38,7 +40,11 @@ public:
   LevelData parse()
   {
     LevelData levelData;
-    processFile(levelData);
+
+    levelData.sounds(sounds());
+    levelData.tileData(tileData());
+    levelData.player(player());
+    levelData.tileMap(tileMap());
 
     return levelData;
   }
@@ -53,286 +59,160 @@ private:
       cout << "Failed to open file: " << path_ << endl;
     }
 
-    root_ = xmlDocGetRootElement(doc_);
+    xpathContext_ = xmlXPathNewContext(doc_);
 
-    if (root_ == nullptr)
+    if (nullptr == xpathContext_)
     {
-      cout << "Failed to get xml root element!" << endl;
+      cout << "Failed to create new XPath context" << endl;
     }
   }
 
-  bool processFile(LevelData& levelData)
+  std::list<Sound> sounds()
   {
-    xmlNodePtr cur = root_;
-    cur = cur->xmlChildrenNode;
+    result_ = xmlXPathEvalExpression((const xmlChar*)"/levelData/sounds/sound", xpathContext_);
+    xmlNodeSetPtr nodeset = result_->nodesetval;
 
-    while (cur != nullptr)
+    std::list<Sound> sounds = std::list<Sound>();
+
+    for (int i = 0; i < nodeset->nodeNr; ++i)
     {
-      if (nodeFound(cur, "sounds"))
-      {
-        if (!parseSounds(cur->xmlChildrenNode, levelData)) return false;
-      }
-      else if (nodeFound(cur, "tiles"))
-      {
-        levelData.tileWidth(optionalIntAttr(cur, "width"));
-        levelData.tileHeight(optionalIntAttr(cur, "height"));
-
-        if (!parseTiles(cur->xmlChildrenNode, levelData)) return false;
-      }
-      else if (nodeFound(cur, "levels"))
-      {
-        if (!parseLevels(cur->xmlChildrenNode, levelData)) return false;
-      }
-
-      cur = cur->next;
+      sounds.push_back(parseSound(result_->nodesetval->nodeTab[i]));
     }
 
-    if (!buildTileGrid(levelData)) return false;
-
-    return true;
+    return sounds;
   }
 
-  bool buildTileGrid(LevelData& levelData)
+  TileData tileData()
   {
-    Level* level = &levelData.levels().at(0);
+    result_ = xmlXPathEvalExpression((const xmlChar*)"/levelData/tiles", xpathContext_);
+    xmlNodePtr node = result_->nodesetval->nodeTab[0];
 
-    levelData.id(level->id());
-    levelData.rows(level->rows());
-    levelData.cols(level->cols());
-    levelData.tileMap(level->tileMap());
+    TileData tileData;
 
-    vector<vector<int>> grid(level->tileMap().grid().size());
+    tileData.width(optionalIntAttr(node, "width"));
+    tileData.height(optionalIntAttr(node, "height"));
 
-    int i = 0;
-    for (vector<vector<int>>::iterator it = level->tileMap().grid().begin();
-         it != level->tileMap().grid().end(); ++it)
+    result_ = xmlXPathEvalExpression((const xmlChar*)"/levelData/tiles/tile", xpathContext_);
+
+    for (int i = 0; i < result_->nodesetval->nodeNr; ++i)
     {
-      int j = 0;
-      grid.push_back(vector<int>(level->tileMap().grid()[0].size()));
-      for (vector<int>::iterator it2 = it->begin(); it2 != it->end(); ++it2)
-      {
-        cout << "pushing back: " << *it2 << endl;
-        grid[i].push_back(*it2);
-        ++j;
-      }
-      ++i;
+      tileData.addTile(parseTile(result_->nodesetval->nodeTab[i]));
     }
 
-    i = 0;
+    return tileData;
+  }
 
-    for (auto row : levelData.levels()[0].tileMap().grid())
+  Player player()
+  {
+    result_ = xmlXPathEvalExpression((const xmlChar*)"/levelData/levels/level/player",
+      xpathContext_);
+
+    return parsePlayer(result_->nodesetval->nodeTab[0]);
+  }
+
+  TileMap tileMap()
+  {
+    result_ = xmlXPathEvalExpression(
+      (const xmlChar*)"/levelData/levels/level/tilemap",
+      xpathContext_);
+
+    TileMap tileMap = parseTileMap(result_->nodesetval->nodeTab[0]);
+
+    result_ = xmlXPathEvalExpression(
+      (const xmlChar*)"/levelData/levels/level/tilemap/rows/row",
+      xpathContext_);
+
+    for (int i = 0; i < result_->nodesetval->nodeNr; ++i)
     {
-      copy(row.begin(), row.end(), back_inserter(grid[i]));
-      ++i;
+      tileMap.addRow(parseRow(result_->nodesetval->nodeTab[i]));
     }
 
-    vector<Tile> tiles;
-    copy(levelData.tiles().begin(), levelData.tiles().end(), back_inserter(tiles));
-
-    for (size_t x = 0; x < grid.size(); ++x)
-    {
-      level->tiles().push_back(vector<Tile>(grid.size()));
-
-      for (size_t y = 0; y < grid[x].size(); ++y)
-      {
-        vector<Tile>::iterator tile = find_if(tiles.begin(), tiles.end(),
-          [x,y,&level,&grid](Tile t) -> bool { return t.id() == grid[x][y]; });
-
-        if (tile == levelData.tiles().end())
-        {
-          stringstream err;
-          err << "Failed to find tile: " << x << "!";
-          throw runtime_error(err.str());
-        }
-
-        level->tiles()[x].push_back(*tile);
-      }
-    }
-
-    return true;
-  }
-
-  bool parseSounds(xmlNodePtr cur, LevelData& levelData)
-  {
-    while (cur != nullptr)
-    {
-      if (nodeFound(cur, "sound"))
-      {
-        levelData.sounds().push_back(parseSound(cur));
-      }
-
-      cur = cur->next;
-    }
-
-    return true;
-  }
-
-  bool parseTiles(xmlNodePtr cur, LevelData& levelData)
-  {
-    while (cur != nullptr)
-    {
-      if (nodeFound(cur, "tile"))
-      {
-        levelData.tiles().push_back(parseTile(cur));
-      }
-
-      cur = cur->next;
-    }
-
-    return true;
-  }
-
-  bool parseLevels(xmlNodePtr cur, LevelData& levelData)
-  {
-    while (cur != nullptr)
-    {
-      if (nodeFound(cur, "level"))
-      {
-        levelData.levels().push_back(parseLevel(cur));
-      }
-
-      cur = cur->next;
-    }
-
-    return true;
-  }
-
-  Sound parseSound(xmlNodePtr cur)
-  {
-    return Sound(attr(cur, "name"), attr(cur, "res"));
-  }
-
-  Tile parseTile(xmlNodePtr& cur)
-  {
-    return Tile(
-      boost::lexical_cast<int>(attr(cur, "id")),
-      attr(cur, "res"),
-      optionalBoolAttr(cur, "solid"),
-      optionalBoolAttr(cur, "breakable"),
-      optionalBoolAttr(cur, "background"),
-      optionalBoolAttr(cur, "goal"),
-      attr(cur, "entity"),
-      optionalIntAttr(cur, "frames"),
-      optionalIntAttr(cur, "value"),
-      optionalBoolAttr(cur, "static")
-    );
-  }
-
-  Level parseLevel(xmlNodePtr cur)
-  {
-    auto level = Level(optionalIntAttr(cur, "id"),
-                       parsePlayer(cur->xmlChildrenNode),
-                       parseTileMap(cur->xmlChildrenNode));
-
-    return level;
-  }
-
-  Player parsePlayer(xmlNodePtr cur)
-  {
-    cur = cur->next;
-
-    auto player = Player(optionalIntAttr(cur, "startrow"),
-                         optionalIntAttr(cur, "startcol"),
-                         attr(cur, "facing"));
-
-    return player;
-  }
-
-  TileMap parseTileMap(xmlNodePtr cur)
-  {
-    cur = cur->next;
-    cur = cur->next; // player to text
-    cur = cur->next; // text to tilemap
-
-    auto tileMap = TileMap(optionalIntAttr(cur, "rows"),
-                           optionalIntAttr(cur, "cols"),
-                           attr(cur, "bgcolor"),
-                           parseRows(cur));
     return tileMap;
   }
 
-  vector<vector<int>> parseRows(xmlNodePtr cur)
+  Sound parseSound(xmlNodePtr node)
   {
-    vector<vector<int>> rows;
-    int rowIndex = 0;
-
-    while (cur != nullptr)
-    {
-      if (nodeFound(cur, "tilemap"))
-      {
-        cur = cur->xmlChildrenNode;
-        cur = cur->next;
-
-        if (nodeFound(cur, "rows"))
-        {
-          cur = cur->xmlChildrenNode;
-          cur = cur->next;
-
-          while (cur != nullptr)
-          {
-            if (nodeFound(cur, "row"))
-            {
-              rows.push_back(vector<int>());
-              parseRow(cur, rows[rowIndex]);
-              ++rowIndex;
-            }
-
-            if (cur != nullptr) cur = cur->next;
-          }
-        }
-      }
-
-      if (cur != nullptr) cur = cur->next;
-    }
-
-    return rows;
+    return Sound(attr(node, "name"), attr(node, "res"));
   }
 
-  void parseRow(xmlNodePtr cur, vector<int>& row)
+  Tile parseTile(xmlNodePtr node)
   {
-    vector<string> ids;
-    xmlChar* text = xmlNodeGetContent(cur);
+    return Tile(
+      boost::lexical_cast<int>(attr(node, "id")),
+      attr(node, "res"),
+      optionalBoolAttr(node, "solid"),
+      optionalBoolAttr(node, "breakable"),
+      optionalBoolAttr(node, "background"),
+      optionalBoolAttr(node, "goal"),
+      attr(node, "entity"),
+      optionalIntAttr(node, "frames"),
+      optionalIntAttr(node, "value"),
+      optionalBoolAttr(node, "static")
+    );
+  }
+
+  Player parsePlayer(xmlNodePtr node)
+  {
+    return Player(optionalIntAttr(node, "startrow"),
+                  optionalIntAttr(node, "startcol"),
+                  attr(node, "facing"));
+  }
+
+  TileMap parseTileMap(xmlNodePtr node)
+  {
+    TileMap tileMap;
+
+    tileMap.rows(optionalIntAttr(node, "rows"));
+    tileMap.cols(optionalIntAttr(node, "cols"));
+    tileMap.bgcolor(attr(node, "bgcolor"));
+
+    return tileMap;
+  }
+
+  std::vector<int> parseRow(xmlNodePtr node)
+  {
+    std::vector<string> ids;
+    xmlChar* text = xmlNodeGetContent(node);
     string str((char*)text);
     boost::split(ids, str,
       [](char c) { return c == ','; }, boost::token_compress_on);
     xmlFree(text);
+
+    vector<int> row;
 
     for (auto id : ids)
     {
       boost::trim(id);
       row.push_back(boost::lexical_cast<int>(id));
     }
+
+    return row;
   }
 
-  string attr(xmlNodePtr& cur, const string& name)
+  bool optionalBoolAttr(xmlNodePtr node, const std::string& name)
+  {
+    static const string T("true");
+    return attr(node, name).compare(T) == 0;
+  }
+
+  int optionalIntAttr(xmlNodePtr node, const std::string& name)
+  {
+    string val = attr(node, name);
+    if (!val.empty()) return boost::lexical_cast<int>(val);
+    else return -1;
+  }
+
+  std::string attr(xmlNodePtr node, const std::string& name)
   {
     const xmlChar* nameTag = (const xmlChar*)name.c_str();
-    if (xmlGetProp(cur, nameTag))
+    if (xmlGetProp(node, nameTag))
     {
-      return string((const char*)(xmlGetProp(cur, nameTag)));
+      return string((const char*)(xmlGetProp(node, nameTag)));
     }
     else
     {
       return string("");
     }
-  }
-
-  bool optionalBoolAttr(xmlNodePtr& cur, const string& name)
-  {
-    static const string T("true");
-    return attr(cur, name).compare(T) == 0;
-  }
-
-  int optionalIntAttr(xmlNodePtr& cur, const string& name)
-  {
-    string val = attr(cur, name);
-    if (!val.empty()) return boost::lexical_cast<int>(val);
-    else return -1;
-  }
-
-  bool nodeFound(xmlNodePtr& cur, const char* name)
-  {
-    return !xmlStrcmp(cur->name, reinterpret_cast<const xmlChar*>(name));
   }
 };
 

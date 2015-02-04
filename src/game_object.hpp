@@ -4,7 +4,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include "scene_manager.hpp"
-#include "level_data.hpp"
+#include "level.hpp"
 
 using namespace std;
 
@@ -20,7 +20,7 @@ private:
   SDL_Window* window_;
   SDL_Renderer* renderer_;
   SceneManager* sceneManager_;
-  LevelData* levelData_;
+  Level* level_;
 
 public:
   GameObject() : window_(nullptr)
@@ -36,8 +36,8 @@ public:
   inline SceneManager* sceneManager() const { return sceneManager_; }
   inline void sceneManager(SceneManager* val) { sceneManager_ = val; }
 
-  inline LevelData* levelData() const { return levelData_; }
-  inline void levelData(LevelData* val) { levelData_ = val; }
+  inline Level* level() const { return level_; }
+  inline void level(Level* val) { level_ = val; }
 
   SIZE windowSize()
   {

@@ -36,12 +36,11 @@ public:
   int rows() { return tileMap_.rows(); }
 
   std::vector<std::vector<Tile>>& tiles() { return tiles_; }
-  Tile& tiles(int x, int y) { return tiles_[x][y]; }
 
-  void tiles(int x, int y, const Tile& tile)
-  {
-    tiles_[x][y] = tile;
-  }
+  void initTileGrid(const std::vector<Tile>& tileTypes);
+
+  inline Tile tiles(int x, int y) const { return tiles_[x][y]; }
+  inline void tiles(int x, int y, const Tile& tile) { tiles_[x][y] = tile; }
 
   Level& operator=(const Level&);
   friend std::ostream& operator<<(std::ostream&, const Level&);

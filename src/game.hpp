@@ -9,7 +9,6 @@
 #include <SDL2/SDL_ttf.h>
 #include "initializer.hpp"
 #include "level_data_parser.hpp"
-#include "level_data_parser2.hpp"
 #include "resource_manager.hpp"
 #include "game_object.hpp"
 #include "start_scene.hpp"
@@ -90,25 +89,26 @@ public:
     fs::path resources("resources");
     fs::path levelDataFile("leveldata.xml");
 
-    LevelDataParser2 levelDataParser(resources / levelDataFile);
-    levelDataParser.parse();
+    LevelDataParser levelDataParser(resources / levelDataFile);
+    LevelData levelData = levelDataParser.parse();
 
-    // LevelDataParser levelDataParser(resources / levelDataFile);
-    // auto levelData = levelDataParser.parse();
-    //
-    // gameObject_ = new GameObject;
-    // gameObject_->window(mainWindow_);
-    // gameObject_->renderer(renderer_);
-    // gameObject_->levelData(&levelData);
-    //
-    // ResourceManager::instance()->renderer(renderer_);
-    // levelData.load();
-    //
-    // sceneManager_ = new SceneManager;
-    // gameObject_->sceneManager(sceneManager_);
-    // sceneManager_->addScene("start", new StartScene(gameObject_));
-    // sceneManager_->addScene("main", new MainScene(gameObject_));
-    // sceneManager_->startScene("start");
+    Level* level = new Level(1, levelData.player(), levelData.tileMap());
+
+    gameObject_ = new GameObject;
+    gameObject_->window(mainWindow_);
+    gameObject_->renderer(renderer_);
+    gameObject_->level(level);
+
+    ResourceManager::instance()->renderer(renderer_);
+    levelData.load();
+
+    level->initTileGrid(levelData.tileData().tileTypes());
+
+    sceneManager_ = new SceneManager;
+    gameObject_->sceneManager(sceneManager_);
+    sceneManager_->addScene("start", new StartScene(gameObject_));
+    sceneManager_->addScene("main", new MainScene(gameObject_));
+    sceneManager_->startScene("start");
 
     return true;
   }

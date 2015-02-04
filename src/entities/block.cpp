@@ -1,5 +1,6 @@
 #include "block.hpp"
 #include "../game_object.hpp"
+#include "../resource_manager.hpp"
 
 namespace Entities
 {

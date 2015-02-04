@@ -63,7 +63,6 @@ public:
       c->originTileCol(e.originTileCol());
       c->originTileRow(e.originTileRow());
     }
-
   }
 };
 
