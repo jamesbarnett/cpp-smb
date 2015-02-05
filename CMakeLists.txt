@@ -44,7 +44,8 @@ add_executable(cpp-smb src/main.cpp
   src/main_scene.cpp
   src/viewport.cpp
   src/entities/block.cpp
-  src/entities/brick.cpp)
+  src/entities/brick.cpp
+  src/entities/coinbox.cpp)
 
 target_link_libraries(cpp-smb
   ${SDL2_LIBRARY}

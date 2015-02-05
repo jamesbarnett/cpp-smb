@@ -1,18 +1,19 @@
-#ifndef BRICK_HPP__
-#define BRICK_HPP__
+#ifndef COINBOX_HPP__
+#define COINBOX_HPP__
 
 #include "../character_entity.hpp"
 
 namespace Entities
 {
 
-class Brick : public CharacterEntity
+class Coinbox : public CharacterEntity
 {
 private:
   bool bumping_;
+  int bumpCount_;
 
 public:
-  Brick(GameObject*);
+  Coinbox(GameObject*);
 
   virtual void update(long);
 };
