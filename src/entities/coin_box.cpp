@@ -1,4 +1,4 @@
-#include "coinbox.hpp"
+#include "coin_box.hpp"
 #include "../game_object.hpp"
 #include "../resource_manager.hpp"
 #include "../main_scene.hpp"
@@ -7,7 +7,7 @@ namespace Entities
 {
 using namespace std;
 
-Coinbox::Coinbox(GameObject* gameObject) : CharacterEntity(gameObject), bumping_(false), bumpCount_(5)
+CoinBox::CoinBox(GameObject* gameObject) : CharacterEntity(gameObject), bumping_(false), bumpCount_(5)
 {
   name("coinbox");
   spriteSheet(ResourceManager::instance()->getSpriteSheet("coinbox"));
@@ -20,7 +20,7 @@ Coinbox::Coinbox(GameObject* gameObject) : CharacterEntity(gameObject), bumping_
   // TODO: auto cycle spritesheet stuff
 }
 
-void Coinbox::update(long ms)
+void CoinBox::update(long ms)
 {
   Viewport* v = ((MainScene*)CharacterEntity::gameObject()->sceneManager()->currentScene())->viewport();
   SCREEN_LOCATION sl = v->tileToScreen(originTileRow(), originTileCol());
