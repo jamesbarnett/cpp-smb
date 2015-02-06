@@ -6,6 +6,7 @@ using namespace std;
 
 void Scene::drawBackground()
 {
+  cout << "Scene#drawBackground called!" << endl;
   backSprite_.draw(gameObject_->renderer(), nullptr);
 }
 

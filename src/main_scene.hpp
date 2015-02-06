@@ -49,6 +49,7 @@ public:
 
     for (auto e : entities)
     {
+      c = nullptr;
       std::cout << "In main scene draw background entity loop" << std::endl;
       if (e.name().compare("goomba") == 0) {}
       else if (e.name().compare("koopatroopa") == 0) {}

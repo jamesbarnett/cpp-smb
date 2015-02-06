@@ -40,7 +40,8 @@ vector<Entity> Viewport::render()
           // Create a background tile to replace the entity
           if (!level_->tiles(x, y).isStatic())
           {
-            Tile tile;
+            cout << "Viewport#render: trying to replace tile" << endl;
+            Tile tile = Tile();
             tile.background(true);
             level_->tiles(x, y, tile);
           }
