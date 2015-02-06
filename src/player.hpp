@@ -14,7 +14,6 @@ private:
   Direction facing_;
 
 public:
-  // Mimic the xml file to make Player default constructible for now
   Player() : startRow_(10), startCol_(4), facing_(Direction::RIGHT) {}
   Player(int startRow, int startCol, Direction facing) : startRow_(startRow)
     , startCol_(startCol)

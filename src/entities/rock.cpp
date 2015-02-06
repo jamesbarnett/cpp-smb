@@ -11,7 +11,12 @@ Rock::Rock(GameObject* gameObject) : CharacterEntity(gameObject)
   ResourceManager::instance()->loadSpriteSheetFromFile(
     (fs::path("./resources") / fs::path("rock1.png")), "rock", 1);
   spriteSheet(ResourceManager::instance()->getSpriteSheet("rock"));
+  spriteSheet()->defineFrames(Direction::NONE, vector<int>({0}));
   facing(Direction::NONE);
+  isPlayer(false);
+  isStatic(false);
+  acceleration(0);
+  allowOffScreen(false);
 }
 
 }
