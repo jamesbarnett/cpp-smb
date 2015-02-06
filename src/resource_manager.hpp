@@ -15,7 +15,7 @@ namespace fs = boost::filesystem;
 
 class ResourceManager
 {
-private:  
+private:
   static ResourceManager* instance_;
   map<int, SDL_Texture*> textures_;
   map<string, TTF_Font*> fonts_;
@@ -24,13 +24,13 @@ private:
   map<string, SpriteSheet*> spriteSheets_;
   SDL_Renderer* renderer_ = nullptr;
   ResourceManager();
-  
+
 public:
   static ResourceManager* instance()
   {
     if (instance_ == nullptr)
     {
-      instance_ = new ResourceManager(); 
+      instance_ = new ResourceManager();
     }
 
     return instance_;
@@ -64,9 +64,11 @@ public:
     }
   }
 
+  void init();
+
   SDL_Renderer* renderer() const { return renderer_; }
   void renderer(SDL_Renderer* renderer) { renderer_ = renderer; }
-  
+
   void loadTextureFromFile(const int id, const fs::path& path)
   {
     SDL_Texture* texture = IMG_LoadTexture(renderer_, path.string().c_str());

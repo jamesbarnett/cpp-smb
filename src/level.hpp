@@ -42,10 +42,14 @@ public:
 
   inline Tile tiles(int x, int y) const
   {
+    std::cout << "Level#tiles(x,y): " << x << "," << y << std::endl;
     return tiles_[x][y];
   }
 
-  inline void tiles(int x, int y, const Tile& tile) { tiles_[y][x] = tile; }
+  inline void tiles(int x, int y, const Tile& tile)
+  {
+    tiles_[x][y] = tile;
+  }
 
   inline const vector<vector<Tile>>& tiles() const { return tiles_; }
 

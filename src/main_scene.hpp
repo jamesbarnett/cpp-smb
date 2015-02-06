@@ -5,6 +5,10 @@
 #include "viewport.hpp"
 #include "scene.hpp"
 #include "entities/block.hpp"
+#include "entities/brick.hpp"
+#include "entities/coin_box.hpp"
+#include "entities/empty_coin_box.hpp"
+#include "entities/rock.hpp"
 
 class MainScene : public Scene
 {
@@ -48,10 +52,10 @@ public:
       std::cout << "In main scene draw background entity loop" << std::endl;
       if (e.name().compare("goomba") == 0) {}
       else if (e.name().compare("koopatroopa") == 0) {}
-      else if (e.name().compare("coinbox") == 0) {}
-      else if (e.name().compare("emptycoinbox") == 0) {}
-      else if (e.name().compare("rock") == 0) {}
-      else if (e.name().compare("brick") == 0) {}
+      else if (e.name().compare("coinbox") == 0) c = new Entities::CoinBox(gameObject());
+      else if (e.name().compare("emptycoinbox") == 0) c = new Entities::EmptyCoinBox(gameObject());
+      else if (e.name().compare("rock") == 0) c = new Entities::Rock(gameObject());
+      else if (e.name().compare("brick") == 0) c = new Entities::Brick(gameObject());
       else if (e.name().compare("block") == 0) c = new Entities::Block(gameObject());
       else if (e.name().compare("goal") == 0) {}
       else if (e.name().compare("pipetopleft") == 0) {}

@@ -18,10 +18,6 @@ void Level::initTileGrid(const vector<Tile>& tileTypes)
   tiles_.clear();
   tiles_ = vector<vector<Tile>>(tileMap_.grid().size());
 
-  int count = 0;
-
-  cout << "initTileGrid: grid[0].size(): " << tileMap_.grid()[0].size() << endl;
-
   for (size_t x = 0; x < tileMap_.grid().size(); ++x)
   {
     for (size_t y = 0; y < tileMap_.grid()[0].size(); ++y)
@@ -37,13 +33,8 @@ void Level::initTileGrid(const vector<Tile>& tileTypes)
       }
 
       tiles_[x].push_back(*tile);
-      ++count;
     }
   }
-
-  cout << "tiles.size(): " << tiles_.size() << endl;
-  cout << "tiles[0].size(): " << tiles_[0].size() << endl;
-  cout << "Tiles added: " << count << endl;
 }
 
 Level& Level::operator=(const Level& rhs)

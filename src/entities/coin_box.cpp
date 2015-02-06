@@ -10,6 +10,8 @@ using namespace std;
 CoinBox::CoinBox(GameObject* gameObject) : CharacterEntity(gameObject), bumping_(false), bumpCount_(5)
 {
   name("coinbox");
+  ResourceManager::instance()->loadSpriteSheetFromFile(
+    (fs::path("./resources") / fs::path("coinbox1.png")), "coinbox", 1);
   spriteSheet(ResourceManager::instance()->getSpriteSheet("coinbox"));
   spriteSheet()->defineFrames(Direction::NONE, vector<int>({0, 0, 0, 1, 2}));
   facing(Direction::NONE);
