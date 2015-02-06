@@ -122,10 +122,22 @@ private:
       (const xmlChar*)"/levelData/levels/level/tilemap/rows/row",
       xpathContext_);
 
+    vector<int> ns = parseRow(result_->nodesetval->nodeTab[0]);
+
+    size_t width = ns.size();
+    vector<vector<int>> grid(width);
+
     for (int i = 0; i < result_->nodesetval->nodeNr; ++i)
     {
-      tileMap.addRow(parseRow(result_->nodesetval->nodeTab[i]));
+      vector<int> row = parseRow(result_->nodesetval->nodeTab[i]);
+
+      for (size_t j = 0; j < row.size(); ++j)
+      {
+        grid[j].push_back(row[j]);
+      }
     }
+
+    tileMap.grid() = grid;
 
     return tileMap;
   }
@@ -199,7 +211,7 @@ private:
   {
     string val = attr(node, name);
     if (!val.empty()) return boost::lexical_cast<int>(val);
-    else return -1;
+    else return 0;
   }
 
   std::string attr(xmlNodePtr node, const std::string& name)

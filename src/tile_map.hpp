@@ -24,8 +24,6 @@ public:
   {
   }
 
-  TileMap(const TileMap&);
-
   inline int rows() const { return rows_; }
   inline void rows(int val) { rows_ = val; }
 
@@ -35,14 +33,9 @@ public:
   inline std::string bgcolor() const { return bgcolor_; }
   inline void bgcolor(std::string val) { bgcolor_ = val; }
 
-  std::vector<std::vector<int>>& grid() { return grid_; }
+  inline const std::vector<std::vector<int>>& grid() const { return grid_; }
+  inline std::vector<std::vector<int>>& grid() { return grid_; }
 
-  void addRow(const std::vector<int>& row)
-  {
-    grid_.push_back(row);
-  }
-
-  TileMap& operator=(const TileMap&);
   friend std::ostream& operator<<(std::ostream&, const TileMap&);
 };
 

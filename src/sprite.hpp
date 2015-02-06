@@ -20,6 +20,7 @@ public:
 
   void draw(SDL_Renderer* renderer, const SDL_Rect* dest)
   {
+    // std::cout << "Sprite#draw: " << textureRect_.x << "," << textureRect_.y << "," << textureRect_.w << "," << textureRect_.h << std::endl;
     SDL_RenderCopy(renderer, texture_, &textureRect_, dest);
   }
 };

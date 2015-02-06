@@ -17,3 +17,4 @@ ostream& operator<<(ostream& os, const Tile& rhs)
      << " }";
   return os;
 }
+

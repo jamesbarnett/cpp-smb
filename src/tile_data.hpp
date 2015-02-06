@@ -27,7 +27,8 @@ public:
     tileTypes_.push_back(tile);
   }
 
-  const std::vector<Tile>& tileTypes() const { return tileTypes_; }
+  inline void tileTypes(const std::vector<Tile>& val) { tileTypes_ = val; }
+  inline const std::vector<Tile>& tileTypes() const { return tileTypes_; }
 
   TileData& operator=(const TileData&);
   friend std::ostream& operator<<(std::ostream&, const TileData&);

@@ -2,6 +2,7 @@
 #define LEVEL_HPP__
 
 #include <iostream>
+#include <cassert>
 #include "player.hpp"
 #include "tile_map.hpp"
 #include "tile.hpp"
@@ -41,10 +42,12 @@ public:
 
   inline Tile tiles(int x, int y) const
   {
-    std::cout << "tiles(x,y): " << x << "," << y << std::endl;
     return tiles_[x][y];
   }
-  inline void tiles(int x, int y, const Tile& tile) { tiles_[x][y] = tile; }
+
+  inline void tiles(int x, int y, const Tile& tile) { tiles_[y][x] = tile; }
+
+  inline const vector<vector<Tile>>& tiles() const { return tiles_; }
 
   Level& operator=(const Level&);
   friend std::ostream& operator<<(std::ostream&, const Level&);

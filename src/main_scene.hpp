@@ -39,14 +39,13 @@ public:
 
   virtual void drawBackground()
   {
-    cout << "MainScene::drawBackground called!" << endl;
     vector<Entity> entities = viewport_->render();
-    cout << "entities.size: " << entities.size() << endl;
 
     CharacterEntity* c = nullptr;
 
     for (auto e : entities)
     {
+      std::cout << "In main scene draw background entity loop" << std::endl;
       if (e.name().compare("goomba") == 0) {}
       else if (e.name().compare("koopatroopa") == 0) {}
       else if (e.name().compare("coinbox") == 0) {}
@@ -60,12 +59,15 @@ public:
       else if (e.name().compare("pipeleft") == 0) {}
       else if (e.name().compare("piperight") == 0) {}
 
-      c->x(e.x());
-      c->y(e.y());
-      c->originTileCol(e.originTileCol());
-      c->originTileRow(e.originTileRow());
+      if (c != nullptr) // this condition should be removed when all entities are implemented
+      {
+        c->x(e.x());
+        c->y(e.y());
+        c->originTileCol(e.originTileCol());
+        c->originTileRow(e.originTileRow());
 
-      entities.push_back(*c);
+        entities.push_back(*c);
+      }
     }
   }
 };

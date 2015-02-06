@@ -16,19 +16,16 @@ Level::Level(const Level& rhs)
 void Level::initTileGrid(const vector<Tile>& tileTypes)
 {
   tiles_.clear();
-  tiles_ = vector<vector<Tile>>();
+  tiles_ = vector<vector<Tile>>(tileMap_.grid().size());
 
-  int x = 0;
+  int count = 0;
 
-  for (vector<vector<int>>::const_iterator it = tileMap_.grid().begin(); it != tileMap_.grid().end(); ++it)
+  cout << "initTileGrid: grid[0].size(): " << tileMap_.grid()[0].size() << endl;
+
+  for (size_t x = 0; x < tileMap_.grid().size(); ++x)
   {
-    cout << "Level#initTileGrid: size x: " << it->size() << endl;
-    tiles_.push_back(vector<Tile>(it->size()));
-    int y = 0;
-    for (vector<int>::const_iterator it2 = it->begin(); it2 != it->end(); ++it2)
+    for (size_t y = 0; y < tileMap_.grid()[0].size(); ++y)
     {
-      // cout << "Level#initTileGrid: size y: " << tiles_[x].size() << endl;
-
       vector<Tile>::const_iterator tile = find_if(tileTypes.begin(), tileTypes.end(),
         [x,y,this](Tile t) -> bool { return t.id() == tileMap_.grid()[x][y]; });
 
@@ -40,11 +37,13 @@ void Level::initTileGrid(const vector<Tile>& tileTypes)
       }
 
       tiles_[x].push_back(*tile);
-      ++y;
+      ++count;
     }
-
-    ++x;
   }
+
+  cout << "tiles.size(): " << tiles_.size() << endl;
+  cout << "tiles[0].size(): " << tiles_[0].size() << endl;
+  cout << "Tiles added: " << count << endl;
 }
 
 Level& Level::operator=(const Level& rhs)
