@@ -11,7 +11,7 @@ Rock::Rock(GameObject* gameObject) : CharacterEntity(gameObject)
   ResourceManager::instance()->loadSpriteSheetFromFile(
     (fs::path("./resources") / fs::path("rock1.png")), "rock", 1);
   spriteSheet(ResourceManager::instance()->getSpriteSheet("rock"));
-
+  facing(Direction::NONE);
 }
 
 }

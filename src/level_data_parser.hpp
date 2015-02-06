@@ -167,7 +167,7 @@ private:
   {
     return Player(optionalIntAttr(node, "startrow"),
                   optionalIntAttr(node, "startcol"),
-                  attr(node, "facing"));
+                  optionalDirectionAttr(node, "facing"));
   }
 
   TileMap parseTileMap(xmlNodePtr node)
@@ -212,6 +212,15 @@ private:
     string val = attr(node, name);
     if (!val.empty()) return boost::lexical_cast<int>(val);
     else return 0;
+  }
+
+  Direction optionalDirectionAttr(xmlNodePtr node, const std::string& name)
+  {
+    string val = attr(node, name);
+    if (val.compare("right") == 0) return Direction::RIGHT;
+    if (val.compare("left") == 0) return Direction::LEFT;
+
+    return Direction::NONE;
   }
 
   std::string attr(xmlNodePtr node, const std::string& name)
