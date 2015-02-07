@@ -27,7 +27,7 @@ private:
   int originTileCol_;
 
 public:
-  Entity(GameObject* gameObject); 
+  Entity(GameObject* gameObject);
 
   inline string name() const { return name_; }
   inline void name(const string& val) { name_ = val; }
@@ -72,7 +72,7 @@ public:
 
   virtual void draw();
 
-  virtual void udpate(long ms)
+  virtual void update(long ms)
   {
     if (ms % 2000 == 0) cout << "Entity#ms " << ms << endl;
   }

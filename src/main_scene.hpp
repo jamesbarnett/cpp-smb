@@ -28,11 +28,13 @@ public:
 
   virtual void update(long ms)
   {
+    std::cout << "MainScene#update called! " << std::endl;
     silence(ms);
 
     for (auto e : entities())
     {
-
+      e.update(ms);
+      e.draw();
     }
   }
 

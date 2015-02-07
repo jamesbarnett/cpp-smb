@@ -18,7 +18,7 @@ private:
   bool isStatic_;
 
 public:
-  Tile(int id, std::string resource, bool solid, bool breakable, bool background, 
+  Tile(int id, std::string resource, bool solid, bool breakable, bool background,
       bool goal, std::string entity, int frames, int value, bool isStatic) :
     id_(id)
     , resource_(resource)
@@ -47,11 +47,12 @@ public:
   inline std::string res() const { return resource_; }
 
   inline bool background() const { return background_; }
-  inline void background(bool val) { isStatic_ = val; }
+  inline void background(bool val) { background_ = val; }
 
   inline std::string entity() const { return entity_; }
 
   inline bool isStatic() const { return isStatic_; }
+  inline void isStatic(bool val) { isStatic_ = val; }
 
   friend std::ostream& operator<<(std::ostream&, const Tile&);
 };

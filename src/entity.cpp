@@ -20,8 +20,11 @@ void Entity::draw()
     dest.x = x();
     dest.y = y();
     dest.w = this->sprite().textureRect().w;
-    dest.h =  this->sprite().textureRect().h;
+    dest.h = this->sprite().textureRect().h;
 
+    cout << "Entity::draw called for visible item (" << name_ << "): (x,y,w,h): "
+         << x() << "," << y() << "," << this->sprite().textureRect().w
+         << "," << this->sprite().textureRect().h << endl;
     this->sprite().draw(gameObject_->renderer(), &dest);
   }
 }
