@@ -86,7 +86,7 @@ public:
       if (!t.res().empty())
       {
         ResourceManager::instance()->loadTextureFromFile(
-          t.id(), resources / safeResource(t.res()));
+          t.res(), resources / safeResource(t.res()));
       }
     }
 

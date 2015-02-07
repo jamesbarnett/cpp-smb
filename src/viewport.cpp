@@ -31,14 +31,16 @@ vector<Entity> Viewport::render()
   {
     for (int y = originYtile_; y < screenTilesPerColumn_ + originYtile_ + 2; ++y)
     {
-      if (!level_->tiles(x, y).background())
+      Tile tile = level_->tiles(x, y);
+
+      if (!tile.background())
       {
-        if (!level_->tiles(x, y).entity().empty())
+        if (!tile.entity().empty())
         {
-          string entityName = level_->tiles(x, y).entity();
+          string entityName = tile.entity();
 
           // Create a background tile to replace the entity
-          if (!level_->tiles(x, y).isStatic())
+          if (!tile.isStatic())
           {
             cout << "Viewport#render: trying to replace tile" << endl;
             Tile tile = Tile();
@@ -57,7 +59,7 @@ vector<Entity> Viewport::render()
         else
         {
           SDL_Texture* texture =
-            ResourceManager::instance()->getTexture(level_->tiles(x, y).id());
+            ResourceManager::instance()->getTexture(tile.res());
           int x1 = (tileHeight_ * screenY) + yOffset_;
           int y1 = (tileWidth_ * screenX) + xOffset_;
 
