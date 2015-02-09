@@ -61,7 +61,7 @@ public:
   inline void level(const Level& val) { level_ = val; }
 
   inline GameObject* gameObject() const { return gameObject_; }
-  
+
   void addEntity(const Entity& entity) { entities_.push_back(entity); }
 
   virtual void initialize() {}
@@ -73,6 +73,7 @@ public:
   virtual void update(long ms)
   {
     silence(ms);
+    drawBackground();
   }
 
   virtual void move() {}

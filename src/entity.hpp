@@ -19,7 +19,7 @@ private:
   int velocity_;
   int acceleration_;
   bool delete_;
-  SDL_Texture* texture_;
+  // SDL_Texture* texture_;
   GameObject* gameObject_;
   bool isStatic_;
   Sprite sprite_;
@@ -50,8 +50,8 @@ public:
   inline bool del() const { return delete_; }
   inline void del(bool val) { delete_ = val; }
 
-  inline SDL_Texture* texture() const { return texture_; }
-  inline void texture(SDL_Texture* val) { texture_ = val; }
+  // inline SDL_Texture* texture() const { return texture_; }
+  // inline void texture(SDL_Texture* val) { texture_ = val; }
 
   inline GameObject* gameObject() const { return gameObject_; }
   inline void gameObject(GameObject* val) { gameObject_ = val; }

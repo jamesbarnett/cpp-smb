@@ -27,9 +27,9 @@ vector<Entity> Viewport::render()
   int screenX = 0;
   int screenY = -1;
 
-  for (int x = originXtile_; x < screenTilesPerRow_ + originXtile_; ++x)
+  for (int x = originXtile_; x < screenTilesPerRow_ + originXtile_ + 1; ++x)
   {
-    for (int y = originYtile_; y < screenTilesPerColumn_ + originYtile_ + 2; ++y)
+    for (int y = originYtile_; y < screenTilesPerColumn_ + originYtile_ /*+ 2*/; ++y)
     {
       Tile tile = level_->tiles(x, y);
 
@@ -53,11 +53,11 @@ vector<Entity> Viewport::render()
           namedEntity.name(entityName);
           namedEntity.x(screenLocation.X);
           namedEntity.y(screenLocation.Y);
-          cout << "Viewport#render: adding namedEntity: " << entityName << endl;
           newEntities.push_back(namedEntity);
         }
         else
         {
+          // cout << "Tile res: " << tile.res() << endl;
           SDL_Texture* texture =
             ResourceManager::instance()->getTexture(tile.res());
           int x1 = (tileHeight_ * screenY) + yOffset_;

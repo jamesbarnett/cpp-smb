@@ -42,7 +42,6 @@ public:
 
   inline Tile tiles(int x, int y) const
   {
-    std::cout << "Level#tiles(x,y): " << x << "," << y << std::endl;
     return tiles_[x][y];
   }
 

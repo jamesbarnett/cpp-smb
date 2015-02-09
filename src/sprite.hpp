@@ -21,8 +21,15 @@ public:
   void draw(SDL_Renderer* renderer, const SDL_Rect* dest)
   {
     // std::cout << "Sprite#draw: " << textureRect_.x << "," << textureRect_.y << "," << textureRect_.w << "," << textureRect_.h << std::endl;
+    // std::cout << "Sprite#draw info: " << texture_ << "," << dest->w << "," << dest->h << std::endl;
+    // std::cout << "Sprite#draw: " << *this << std::endl;
     SDL_RenderCopy(renderer, texture_, &textureRect_, dest);
   }
+
+  friend std::ostream& operator<<(std::ostream&, const Sprite&);
 };
 
+std::ostream& operator<<(std::ostream&, const Sprite&);
+
 #endif
+

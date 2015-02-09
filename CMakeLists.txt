@@ -35,6 +35,7 @@ add_executable(cpp-smb src/main.cpp
   src/player.cpp
   src/sound.cpp
   src/resource_manager.cpp
+  src/sprite.cpp
   src/tile_map.cpp
   src/tile.cpp
   src/tile_data.cpp
