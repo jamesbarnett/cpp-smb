@@ -1,6 +1,7 @@
 #include "viewport.hpp"
 #include "game_object.hpp"
 #include "resource_manager.hpp"
+#include "entities/rock.hpp"
 
 Viewport::Viewport(GameObject* gameObject, int tileWidth, int tileHeight, Level* level) :
   gameObject_(nullptr), tileWidth_(tileWidth), tileHeight_(tileHeight)
@@ -49,6 +50,7 @@ vector<Entity> Viewport::render()
           }
 
           SCREEN_LOCATION screenLocation = tileToScreen(x, y);
+          cout << "Screen Location: " << screenLocation.X << "," << screenLocation.Y << endl;
           Entity namedEntity(gameObject_);
           namedEntity.name(entityName);
           namedEntity.x(screenLocation.X);
@@ -58,20 +60,20 @@ vector<Entity> Viewport::render()
         else
         {
           // cout << "Tile res: " << tile.res() << endl;
-          SDL_Texture* texture =
-            ResourceManager::instance()->getTexture(tile.res());
-          int x1 = (tileHeight_ * screenY) + yOffset_;
-          int y1 = (tileWidth_ * screenX) + xOffset_;
-
-          SDL_Rect rect;
-          rect.x = x1;
-          rect.y = y1;
-          rect.w = tileWidth_;
-          rect.h = tileHeight_;
-
-          backgroundSprite_.texture(texture);
-          backgroundSprite_.textureRect(rect);
-          backgroundSprite_.draw(gameObject_->renderer(), &rect);
+          // SDL_Texture* texture =
+          //   ResourceManager::instance()->getTexture(tile.res());
+          // int x1 = (tileHeight_ * screenY) + yOffset_;
+          // int y1 = (tileWidth_ * screenX) + xOffset_;
+          //
+          // SDL_Rect rect;
+          // rect.x = x1;
+          // rect.y = y1;
+          // rect.w = tileWidth_;
+          // rect.h = tileHeight_;
+          //
+          // backgroundSprite_.texture(texture);
+          // backgroundSprite_.textureRect(rect);
+          // backgroundSprite_.draw(gameObject_->renderer(), &rect);
         }
       }
 

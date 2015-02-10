@@ -12,14 +12,23 @@ void MainScene::drawBackground()
 {
   vector<Entity> entities = viewport_->render();
 
+  cout << "drawBackground: Entity count: " << entities.size() << endl;
   CharacterEntity* c = nullptr;
 
   // cout << "entities.size(): " << entities.size() << endl;
 
-  auto rock = Entities::Rock(gameObject());
-  SDL_Rect src({0,0,64,64});
-  SDL_Rect dst({0,704,64,64});
-  SDL_RenderCopy(gameObject()->renderer(), rock.sprite().texture(), &src, &dst);
+  // auto rock = Entities::Rock(gameObject());
+  // SDL_Rect src({0,0,64,64});
+  // SDL_Rect dst({0,704,64,64});
+  // SDL_RenderCopy(gameObject()->renderer(), rock.sprite().texture(), &src, &dst);
+  //
+  // dst.x = 64;
+  // SDL_RenderCopy(gameObject()->renderer(), rock.sprite().texture(), &src, &dst);
+  SDL_Rect s = SDL_Rect({0, 0, 64, 64});
+  SDL_Rect d = SDL_Rect({0, 704, 64, 64});
+
+  SDL_RenderCopy(gameObject()->renderer(), entities[0].sprite().texture(),
+    &s, &d);
 
   for (auto e : entities)
   {
@@ -46,7 +55,19 @@ void MainScene::drawBackground()
       c->originTileCol(e.originTileCol());
       c->originTileRow(e.originTileRow());
 
-      addEntity(*c);
+      auto newEntity = find_if(entities.begin(), entities.end(),
+        [c](Entity e1) -> bool { return !(e1.x() == c->x()
+          && e1.y() == c->y()
+          && e1.originTileRow() == c->originTileRow()
+          && e1.originTileCol() == c->originTileCol()); });
+
+      // cout << "newEntity: " << *newEntity << endl;
+      if (newEntity != entities.end())
+      {
+        // cout << "newEntity: " << newEntity << ", entities.end(): " << entities.end() << endl;
+        // cout << "MainScene: calling addEntity: " << *c << endl;
+        addEntity(*c);
+      }
     }
   }
 }

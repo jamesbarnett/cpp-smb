@@ -155,7 +155,6 @@ private:
 
   void draw()
   {
-    cout << "Render Clear!" << endl;
     SDL_RenderClear(renderer_);
     sceneManager_->currentScene()->draw();
     SDL_RenderPresent(renderer_);

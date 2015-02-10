@@ -37,10 +37,9 @@ public:
       e.update(ms);
       if (e.name().compare("rock") == 0)
       {
-        cout << "MainScene: " << e << endl;
+        e.update(ms);
+        e.draw();
       }
-      e.update(ms);
-      e.draw();
     }
   }
 
