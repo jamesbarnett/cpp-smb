@@ -67,6 +67,7 @@ void MainScene::drawBackground()
         // cout << "newEntity: " << newEntity << ", entities.end(): " << entities.end() << endl;
         // cout << "MainScene: calling addEntity: " << *c << endl;
         addEntity(*c);
+        c->draw(); // fucking hell, we are finally drawing something in the background
       }
     }
   }
