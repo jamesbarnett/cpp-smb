@@ -34,11 +34,11 @@ public:
 
     for (auto e : entities())
     {
-      e.update(ms);
-      if (e.name().compare("rock") == 0)
+      e->update(ms);
+      if (e->name().compare("rock") == 0)
       {
-        e.update(ms);
-        e.draw();
+        e->update(ms);
+        e->draw();
       }
     }
   }
@@ -48,6 +48,8 @@ public:
     // cout << "MainScene#draw called" << endl;
     drawBackground();
   }
+
+  void scrollHandler();
 
   virtual void drawBackground();
 };

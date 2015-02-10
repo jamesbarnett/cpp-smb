@@ -131,7 +131,7 @@ public:
     return false;
   }
 
-  vector<Entity> render();
+  vector<Entity*> render();
 
   TILE_LOCATION screenToTile(int x, int y) const
   {

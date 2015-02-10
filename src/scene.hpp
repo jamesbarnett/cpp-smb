@@ -15,7 +15,7 @@ class Scene
 {
 private:
   string name_;
-  std::vector<Entity> entities_;
+  std::vector<Entity*> entities_;
   SDL_Texture* texture_;
   long currentTicks_;
   long targetTicks_;
@@ -27,7 +27,7 @@ private:
   Sprite backSprite_;
 
 public:
-  Scene(GameObject* gameObject) : name_(""), entities_(vector<Entity>())
+  Scene(GameObject* gameObject) : name_(""), entities_(vector<Entity*>())
     , texture_(nullptr), currentTicks_(0L), targetTicks_(0L), pause_(false)
     , pauseSeconds_(0), backgroundColor_({0, 0, 0, 0}), gameObject_(nullptr)
   {
@@ -37,7 +37,7 @@ public:
   inline std::string name() const { return name_; }
   inline void name(const std::string& val) { name_ = val; }
 
-  inline std::vector<Entity> entities() const { return entities_; }
+  inline std::vector<Entity*> entities() const { return entities_; }
 
   inline SDL_Texture* texture() const { return texture_; }
   inline void texture(SDL_Texture* val) { texture_ = val; }
@@ -62,7 +62,7 @@ public:
 
   inline GameObject* gameObject() const { return gameObject_; }
 
-  void addEntity(const Entity& entity) { entities_.push_back(entity); }
+  void addEntity(Entity* entity) { entities_.push_back(entity); }
 
   virtual void initialize() {}
 

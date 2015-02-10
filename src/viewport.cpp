@@ -19,9 +19,9 @@ Viewport::Viewport(GameObject* gameObject, int tileWidth, int tileHeight, Level*
   screenTilesPerColumn_ = screenHeight_ / tileHeight_;
 }
 
-vector<Entity> Viewport::render()
+vector<Entity*> Viewport::render()
 {
-  vector<Entity> newEntities = vector<Entity>();
+  vector<Entity*> newEntities = vector<Entity*>();
 
   backSprites_.clear();
 
@@ -51,10 +51,10 @@ vector<Entity> Viewport::render()
 
           SCREEN_LOCATION screenLocation = tileToScreen(x, y);
           cout << "Screen Location: " << screenLocation.X << "," << screenLocation.Y << endl;
-          Entity namedEntity(gameObject_);
-          namedEntity.name(entityName);
-          namedEntity.x(screenLocation.X);
-          namedEntity.y(screenLocation.Y);
+          Entity* namedEntity = new Entity(gameObject_);
+          namedEntity->name(entityName);
+          namedEntity->x(screenLocation.X);
+          namedEntity->y(screenLocation.Y);
           newEntities.push_back(namedEntity);
         }
         else

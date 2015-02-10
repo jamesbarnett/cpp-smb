@@ -29,14 +29,14 @@ public:
 
   virtual void reset()
   {
-    Mario mario(gameObject());
-    mario.x(430);
-    mario.y(360);
-    mario.visible(true);
-    mario.spriteSheet()->totalFrames(10);
-    mario.sprite().texture(mario.spriteSheet()->texture());
-    SDL_Rect rect = mario.spriteSheet()->getFirstSprite(Direction::RIGHT); 
-    mario.sprite().textureRect(rect);
+    Mario* mario = new Mario(gameObject());
+    mario->x(430);
+    mario->y(360);
+    mario->visible(true);
+    mario->spriteSheet()->totalFrames(10);
+    mario->sprite().texture(mario->spriteSheet()->texture());
+    SDL_Rect rect = mario->spriteSheet()->getFirstSprite(Direction::RIGHT);
+    mario->sprite().textureRect(rect);
     this->addEntity(mario);
     Scene::reset();
   }
@@ -70,7 +70,7 @@ public:
 
     for (auto e : entities())
     {
-      e.draw();
+      e->draw();
     }
   }
 
