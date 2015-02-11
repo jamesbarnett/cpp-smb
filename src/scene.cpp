@@ -11,6 +11,12 @@ void Scene::drawBackground()
   backSprite_.draw(gameObject_->renderer(), nullptr);
 }
 
+void Scene::updateEntities()
+{
+  remove_if(entities_.begin(), entities_.end(),
+    [](Entity* e) -> bool { return e->del(); });
+}
+
 ostream& operator<<(ostream& os, const Scene& rhs)
 {
   os << "Scene { name: " << rhs.name()

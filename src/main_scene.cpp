@@ -1,13 +1,24 @@
 #include <cmath>
 #include "main_scene.hpp"
 #include "game_object.hpp"
+#include "entities/mario.hpp"
 
 MainScene::MainScene(GameObject* gameObject) : Scene(gameObject)
-  , player_(CharacterEntity(gameObject)), viewport_(nullptr), level_(nullptr)
+  , player_(nullptr), viewport_(nullptr), level_(nullptr)
 {
   level_ = gameObject->level();
   viewport_ = new Viewport(gameObject, 64, 64, level_);
   backgroundColor(SDL_Color({0x5C, 0x94, 0xFC, 0xFF}));
+}
+
+void MainScene::reset()
+{
+  viewport_->reset();
+  entities().clear();
+  Entities::Mario* mario = new Entities::Mario(gameObject());
+  player_ = mario;
+
+  // Start the song over
 }
 
 void MainScene::drawBackground()
@@ -62,34 +73,34 @@ void MainScene::handleEvent(SDL_Event event)
         || event.key.keysym.scancode == SDL_SCANCODE_LEFT)
     {
       cout << "moving left" << endl;
-      player_.facing(Direction::LEFT);
-      player_.isMoving(true);
+      player_->facing(Direction::LEFT);
+      player_->isMoving(true);
     }
     else if (event.key.keysym.scancode == SDL_SCANCODE_D
         || event.key.keysym.scancode == SDL_SCANCODE_RIGHT)
     {
       cout << "moving right" << endl;
-      player_.facing(Direction::RIGHT);
-      player_.isMoving(true);
+      player_->facing(Direction::RIGHT);
+      player_->isMoving(true);
     }
     else if (event.key.keysym.scancode == SDL_SCANCODE_SPACE
-        && !player_.isJumping())
+        && !player_->isJumping())
     {
       // play jump sound
       cout << "jumping" << endl;
-      player_.isJumping(true);
-      player_.velocity(-55);
+      player_->isJumping(true);
+      player_->velocity(-55);
     }
   }
   else if (event.type == SDL_KEYUP)
   {
-    if (event.key.keysym.scancode == SDL_SCANCODE_A
+    if ((event.key.keysym.scancode == SDL_SCANCODE_A
         || event.key.keysym.scancode == SDL_SCANCODE_LEFT
         || event.key.keysym.scancode == SDL_SCANCODE_D
-        || event.key.keysym.scancode == SDL_SCANCODE_RIGHT
-        && !player_.isJumping())
+        || event.key.keysym.scancode == SDL_SCANCODE_RIGHT)
+        && !player_->isJumping())
     {
-      player_.isMoving(false);
+      player_->isMoving(false);
     }
   }
 }
@@ -100,10 +111,10 @@ void MainScene::scrollHandler()
   int midScreen = (int)gameObject()->windowSize().y / 2;
 
   // Scroll viewport until end of level
-  if (player_.isMoving() && player_.facing() == Direction::RIGHT
-      && player_.x() >= midScreen && !viewport_->isEndOfLevel())
+  if (player_->isMoving() && player_->facing() == Direction::RIGHT
+      && player_->x() >= midScreen && !viewport_->isEndOfLevel())
   {
-    player_.x(midScreen);
+    player_->x(midScreen);
 
     for (Entity* character : gameObject()->sceneManager()->currentScene()->entities())
     {
@@ -120,7 +131,7 @@ void MainScene::scrollHandler()
     }
 
     cout << "About to call viewport scroll" << endl;
-    viewport_->scroll(Direction::RIGHT, player_.acceleration());
+    viewport_->scroll(Direction::RIGHT, player_->acceleration());
   }
   else
   {
@@ -138,3 +149,16 @@ void MainScene::scrollHandler()
   }
 }
 
+void MainScene::update(long ms)
+{
+  draw();
+
+  for (auto e : entities())
+  {
+    e->update(ms);
+    e->draw();
+  }
+
+  updateEntities();
+  scrollHandler();
+}

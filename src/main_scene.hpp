@@ -13,7 +13,7 @@
 class MainScene : public Scene
 {
 private:
-  CharacterEntity player_;
+  CharacterEntity* player_;
   Viewport* viewport_;
   Level* level_;
 
@@ -26,24 +26,9 @@ public:
   {
   }
 
-  virtual void update(long ms)
-  {
-    draw();
+  virtual void reset();
 
-    for (auto e : entities())
-    {
-      e->update(ms);
-
-      if (e->name().compare("rock") == 0)
-      {
-        e->update(ms);
-        e->draw();
-      }
-    }
-
-    scrollHandler();
-  }
-
+  virtual void update(long);
   virtual void handleEvent(SDL_Event);
 
   virtual void draw()

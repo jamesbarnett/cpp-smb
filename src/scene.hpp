@@ -63,6 +63,7 @@ public:
   inline GameObject* gameObject() const { return gameObject_; }
 
   void addEntity(Entity* entity) { entities_.push_back(entity); }
+  void updateEntities();
 
   virtual void initialize() {}
 

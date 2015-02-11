@@ -2,7 +2,9 @@
 #define MARIO_HPP__
 
 #include <iostream>
+#include <SDL2/SDL_mixer.h>
 #include "../character_entity.hpp"
+#include "../resource_manager.hpp"
 
 namespace Entities
 {
@@ -34,8 +36,6 @@ public:
     this->acceleration(10);
     this->allowOffScreen(false);
   }
-
-
 
   virtual void update(long ms)
   {
