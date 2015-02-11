@@ -7,6 +7,7 @@ MainScene::MainScene(GameObject* gameObject) : Scene(gameObject)
 {
   level_ = gameObject->level();
   viewport_ = new Viewport(gameObject, 64, 64, level_);
+  backgroundColor(SDL_Color({0x5C, 0x94, 0xFC, 0xFF}));
 }
 
 void MainScene::drawBackground()
@@ -18,8 +19,6 @@ void MainScene::drawBackground()
   for (auto e : entities)
   {
     c = nullptr;
-    // cout << "Entity: " << e << endl;
-    // std::cout << "In main scene draw background entity loop" << std::endl;
     if (e->name().compare("goomba") == 0) {}
     else if (e->name().compare("koopatroopa") == 0) {}
     else if (e->name().compare("coinbox") == 0) c = new Entities::CoinBox(gameObject());

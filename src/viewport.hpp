@@ -148,8 +148,7 @@ public:
     SCREEN_LOCATION s;
 
     s.X = (row * tileWidth_) * (originXtile_ + 1);
-    s.Y = (col * tileHeight_) - ((originYtile_ + 1) * tileHeight_);
-
+    s.Y = (col * tileHeight_) - ((originYtile_) * tileHeight_);
     return s;
   }
 

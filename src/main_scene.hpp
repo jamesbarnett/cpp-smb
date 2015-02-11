@@ -28,13 +28,12 @@ public:
 
   virtual void update(long ms)
   {
-    // cout << "MainScene#update called!" << endl;
-
     draw();
 
     for (auto e : entities())
     {
       e->update(ms);
+
       if (e->name().compare("rock") == 0)
       {
         e->update(ms);
@@ -47,7 +46,6 @@ public:
 
   virtual void draw()
   {
-    // cout << "MainScene#draw called" << endl;
     drawBackground();
   }
 

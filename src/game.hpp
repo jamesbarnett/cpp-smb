@@ -112,7 +112,7 @@ public:
     gameObject_->sceneManager(sceneManager_);
     sceneManager_->addScene("start", new StartScene(gameObject_));
     sceneManager_->addScene("main", new MainScene(gameObject_));
-    sceneManager_->startScene("start");
+    gameObject_->startScene("start");
 
     return true;
   }

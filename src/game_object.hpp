@@ -21,11 +21,13 @@ private:
   SDL_Renderer* renderer_;
   SceneManager* sceneManager_;
   Level* level_;
+  Scene* currentScene_;
 
 public:
   GameObject() : window_(nullptr)
                  , renderer_(nullptr)
-                 , sceneManager_(nullptr) {}
+                 , sceneManager_(nullptr)
+                 , currentScene_(nullptr) {}
 
   inline SDL_Window* window() const { return window_; }
   inline void window(SDL_Window* val) { window_ = val; }
@@ -38,6 +40,14 @@ public:
 
   inline Level* level() const { return level_; }
   inline void level(Level* val) { level_ = val; }
+
+  void startScene(const std::string& name)
+  {
+    currentScene_ = sceneManager_->startScene(name);
+    SDL_Color c = currentScene_->backgroundColor();
+    cout << "Scene: " << name << ", color: " << c.r << "," << c.g << "," << c.b << endl;
+    SDL_SetRenderDrawColor(renderer_, c.r, c.g, c.b, c.a);
+  }
 
   SIZE windowSize()
   {

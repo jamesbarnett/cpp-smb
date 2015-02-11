@@ -25,6 +25,7 @@ public:
     white_.g = 0xFF;
     white_.b = 0xFF;
     white_.a = 0xFF;
+    backgroundColor(SDL_Color({0,0,0,0}));
   }
 
   virtual void reset()
@@ -51,7 +52,7 @@ public:
     {
       if (event.type == SDL_KEYDOWN && event.key.keysym.scancode == SDL_SCANCODE_SPACE)
       {
-        gameObject()->sceneManager()->startScene("main");
+        gameObject()->startScene("main");
       }
     }
   }

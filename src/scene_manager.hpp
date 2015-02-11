@@ -36,19 +36,26 @@ public:
     }
   }
 
-  void startScene(const string& name)
+  /*
+   * Maybe startScene and gotoScene should return a Scene object, and currentScene should be readonly
+   */
+  Scene* startScene(const string& name)
   {
     currentSceneName_ = name;
     currentScene_ = scenes_[name];
     currentScene_->reset();
     currentScene_->run();
+
+    return currentScene_;
   }
 
-  void gotoScene(const string& name)
+  Scene* gotoScene(const string& name)
   {
     currentSceneName_ = name;
     currentScene_ = scenes_[name];
     currentScene_->run();
+
+    return currentScene_;
   }
 };
 
