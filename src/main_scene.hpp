@@ -44,6 +44,8 @@ public:
     scrollHandler();
   }
 
+  virtual void handleEvent(SDL_Event);
+
   virtual void draw()
   {
     drawBackground();

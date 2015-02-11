@@ -76,6 +76,8 @@ public:
     drawBackground();
   }
 
+  virtual void handleEvent(SDL_Event) {}
+
   virtual void move() {}
 
   virtual void drawBackground();

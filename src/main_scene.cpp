@@ -54,6 +54,46 @@ void MainScene::drawBackground()
   }
 }
 
+void MainScene::handleEvent(SDL_Event event)
+{
+  if (event.type == SDL_KEYDOWN)
+  {
+    if (event.key.keysym.scancode == SDL_SCANCODE_A
+        || event.key.keysym.scancode == SDL_SCANCODE_LEFT)
+    {
+      cout << "moving left" << endl;
+      player_.facing(Direction::LEFT);
+      player_.isMoving(true);
+    }
+    else if (event.key.keysym.scancode == SDL_SCANCODE_D
+        || event.key.keysym.scancode == SDL_SCANCODE_RIGHT)
+    {
+      cout << "moving right" << endl;
+      player_.facing(Direction::RIGHT);
+      player_.isMoving(true);
+    }
+    else if (event.key.keysym.scancode == SDL_SCANCODE_SPACE
+        && !player_.isJumping())
+    {
+      // play jump sound
+      cout << "jumping" << endl;
+      player_.isJumping(true);
+      player_.velocity(-55);
+    }
+  }
+  else if (event.type == SDL_KEYUP)
+  {
+    if (event.key.keysym.scancode == SDL_SCANCODE_A
+        || event.key.keysym.scancode == SDL_SCANCODE_LEFT
+        || event.key.keysym.scancode == SDL_SCANCODE_D
+        || event.key.keysym.scancode == SDL_SCANCODE_RIGHT
+        && !player_.isJumping())
+    {
+      player_.isMoving(false);
+    }
+  }
+}
+
 void MainScene::scrollHandler()
 {
   // Check for scroll
@@ -79,6 +119,7 @@ void MainScene::scrollHandler()
       }
     }
 
+    cout << "About to call viewport scroll" << endl;
     viewport_->scroll(Direction::RIGHT, player_.acceleration());
   }
   else

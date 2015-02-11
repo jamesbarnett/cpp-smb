@@ -41,11 +41,12 @@ public:
   inline Level* level() const { return level_; }
   inline void level(Level* val) { level_ = val; }
 
+  inline Scene* currentScene() const { return currentScene_; }
+
   void startScene(const std::string& name)
   {
     currentScene_ = sceneManager_->startScene(name);
     SDL_Color c = currentScene_->backgroundColor();
-    cout << "Scene: " << name << ", color: " << c.r << "," << c.g << "," << c.b << endl;
     SDL_SetRenderDrawColor(renderer_, c.r, c.g, c.b, c.a);
   }
 

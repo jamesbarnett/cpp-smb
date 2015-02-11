@@ -137,7 +137,14 @@ public:
 
       while (SDL_PollEvent(&event))
       {
-        if (event.type == SDL_QUIT) isRunning_ = false;
+        if (event.type == SDL_QUIT)
+        {
+          isRunning_ = false;
+        }
+        else
+        {
+          gameObject_->currentScene()->handleEvent(event);
+        }
       }
 
       draw();
