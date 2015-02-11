@@ -14,11 +14,17 @@ CoinBox::CoinBox(GameObject* gameObject) : CharacterEntity(gameObject), bumping_
     (fs::path("./resources") / fs::path("coinbox1.png")), "coinbox", 1);
   spriteSheet(ResourceManager::instance()->getSpriteSheet("coinbox"));
   spriteSheet()->defineFrames(Direction::NONE, vector<int>({0, 0, 0, 1, 2}));
+  ResourceManager::instance()->loadTextureFromFile("coinbox",
+    (fs::path("./resources") / fs::path("coinbox1.png")));
+  SDL_Texture* texture = ResourceManager::instance()->getTexture("coinbox");
+  sprite().texture(texture);
+  sprite().textureRect(SDL_Rect({0,0,64,64}));
   facing(Direction::NONE);
   isPlayer(false);
   isStatic(true);
   acceleration(0);
   allowOffScreen(false);
+  visible(true);
   // TODO: auto cycle spritesheet stuff
 }
 

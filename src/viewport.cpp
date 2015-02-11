@@ -1,7 +1,17 @@
+#include <iostream>
 #include "viewport.hpp"
 #include "game_object.hpp"
 #include "resource_manager.hpp"
 #include "entities/rock.hpp"
+
+using namespace std;
+
+ostream& operator<<(ostream& os, const SCREEN_LOCATION& rhs)
+{
+  os << "SCREEN_LOCATION: { X: " << rhs.X << " Y: " << rhs.Y << " }";
+
+  return os;
+}
 
 Viewport::Viewport(GameObject* gameObject, int tileWidth, int tileHeight, Level* level) :
   gameObject_(nullptr), tileWidth_(tileWidth), tileHeight_(tileHeight)
@@ -50,7 +60,6 @@ vector<Entity*> Viewport::render()
           }
 
           SCREEN_LOCATION screenLocation = tileToScreen(x, y);
-          cout << "Screen Location: " << screenLocation.X << "," << screenLocation.Y << endl;
           Entity* namedEntity = new Entity(gameObject_);
           namedEntity->name(entityName);
           namedEntity->x(screenLocation.X);

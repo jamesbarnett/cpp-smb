@@ -10,11 +10,15 @@ using namespace std;
 Block::Block(GameObject* gameObject) : CharacterEntity(gameObject)
 {
   name("block");
+  ResourceManager::instance()->loadSpriteSheetFromFile(
+    (fs::path("./resources") / fs::path("block1.png")), "block", 1);
   spriteSheet(ResourceManager::instance()->getSpriteSheet("block"));
-  spriteSheet()->defineFrames(Direction::RIGHT, vector<int>({0}));
-  spriteSheet()->defineFrames(Direction::LEFT, vector<int>({0}));
-  spriteSheet()->defineFrames(Direction::JUMPRIGHT, vector<int>({0}));
-  spriteSheet()->defineFrames(Direction::JUMPLEFT, vector<int>({0}));
+  spriteSheet()->defineFrames(Direction::NONE, vector<int>({0}));
+  ResourceManager::instance()->loadTextureFromFile("block",
+    (fs::path("./resources") / fs::path("block1.png")));
+  SDL_Texture* texture = ResourceManager::instance()->getTexture("block");
+  sprite().texture(texture);
+  sprite().textureRect(SDL_Rect({0,0,64,64}));
   isPlayer(false);
   isStatic(true);
   acceleration(0);

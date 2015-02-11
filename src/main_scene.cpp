@@ -62,13 +62,10 @@ void MainScene::drawBackground()
           && e1->originTileRow() == c->originTileRow()
           && e1->originTileCol() == c->originTileCol()); });
 
-      // cout << "newEntity: " << *newEntity << endl;
       if (newEntity != entities.end())
       {
-        // cout << "newEntity: " << newEntity << ", entities.end(): " << entities.end() << endl;
-        // cout << "MainScene: calling addEntity: " << *c << endl;
         addEntity(c);
-        c->draw(); // fucking hell, we are finally drawing something in the background
+        c->draw();
       }
     }
   }

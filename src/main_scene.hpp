@@ -41,6 +41,8 @@ public:
         e->draw();
       }
     }
+
+    scrollHandler();
   }
 
   virtual void draw()
