@@ -42,6 +42,8 @@ vector<Entity*> Viewport::render()
   {
     for (int y = originYtile_; y < screenTilesPerColumn_ + originYtile_ /*+ 2*/; ++y)
     {
+      cout << "(x,y): " << x << "," << y << endl;
+      cout << "originx, originy: " << originXtile_ << "," << originYtile_ << endl;
       Tile tile = level_->tiles(x, y);
 
       if (!tile.background())

@@ -98,7 +98,7 @@ public:
         if (yOffset_ <= -tileWidth_)
         {
           yOffset_ = 0;
-          ++originYtile_;
+          ++originXtile_;
         }
 
         return true;

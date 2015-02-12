@@ -82,8 +82,8 @@ public:
 
   SDL_Rect getFirstSprite(Direction d)
   {
-    cout << "getFirstSprite: " << d << endl;
-    cout << "first sprite: " << &spriteFrames_[d] << endl;
+    // cout << "getFirstSprite: " << d << endl;
+    // cout << "first sprite: " << &spriteFrames_[d] << endl;
     SPRITEFRAME sf = spriteFrames_[d];
     sf.currentFramePointer = 0;
     spriteFrames_[d] = sf;
