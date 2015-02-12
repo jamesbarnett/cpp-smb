@@ -50,9 +50,6 @@ public:
   inline bool del() const { return delete_; }
   inline void del(bool val) { delete_ = val; }
 
-  // inline SDL_Texture* texture() const { return texture_; }
-  // inline void texture(SDL_Texture* val) { texture_ = val; }
-
   inline GameObject* gameObject() const { return gameObject_; }
   inline void gameObject(GameObject* val) { gameObject_ = val; }
 

@@ -17,6 +17,7 @@ void MainScene::reset()
   entities().clear();
   Entities::Mario* mario = new Entities::Mario(gameObject());
   player_ = mario;
+  addEntity(mario);
 
   // Start the song over
 }
@@ -79,7 +80,7 @@ void MainScene::handleEvent(SDL_Event event)
     else if (event.key.keysym.scancode == SDL_SCANCODE_D
         || event.key.keysym.scancode == SDL_SCANCODE_RIGHT)
     {
-      cout << "moving right" << endl;
+      cout << "Player: " << player_ << ": moving right" << endl;
       player_->facing(Direction::RIGHT);
       player_->isMoving(true);
     }
@@ -109,6 +110,9 @@ void MainScene::scrollHandler()
 {
   // Check for scroll
   int midScreen = (int)gameObject()->windowSize().y / 2;
+
+  // cout << "midScreen: " << midScreen << ", isMoving: " << player_->isMoving()
+  //      << ", facing: " << player_->facing() << endl;
 
   // Scroll viewport until end of level
   if (player_->isMoving() && player_->facing() == Direction::RIGHT
@@ -157,8 +161,13 @@ void MainScene::update(long ms)
   {
     e->update(ms);
     e->draw();
+
+    if (e->velocity() > viewport_->tileHeight()) e->velocity(viewport_->tileHeight());
+    if (e->velocity() < -viewport_->tileHeight()) e->velocity(-viewport_->tileHeight());
+
   }
 
   updateEntities();
   scrollHandler();
 }
+

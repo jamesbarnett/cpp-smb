@@ -102,9 +102,9 @@ public:
     ResourceManager::instance()->renderer(renderer_);
     levelData.load();
 
-    cout << "Tile types: " << endl;
-    copy(levelData.tileData().tileTypes().begin(), levelData.tileData().tileTypes().end(),
-         ostream_iterator<Tile>(cout, "\n"));
+    // cout << "Tile types: " << endl;
+    // copy(levelData.tileData().tileTypes().begin(), levelData.tileData().tileTypes().end(),
+    //      ostream_iterator<Tile>(cout, "\n"));
 
     level->initTileGrid(levelData.tileData().tileTypes());
 

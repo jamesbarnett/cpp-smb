@@ -70,54 +70,61 @@ public:
 
       y(y() + velocity());
       isJumping(true);
-    }
 
-    if (isMoving())
-    {
-      if (facing_ == Direction::RIGHT)
+      if (isMoving())
       {
-        x(x() + acceleration());
-
-        SDL_Rect rect = this->spriteSheet()->getNextSprite(Direction::RIGHT);
-        this->sprite().textureRect(rect);
-      }
-
-      if (facing_ == Direction::LEFT)
-      {
-        if (!allowOffScreen())
-        {
-          if (x() > 0) x(x() + acceleration());
-        }
-        else
+        if (facing_ == Direction::RIGHT)
         {
           x(x() + acceleration());
+
+          this->sprite().textureRect(this->spriteSheet()->getNextSprite(Direction::RIGHT));
         }
 
-        // get next sprite
-      }
-    }
+        if (facing_ == Direction::LEFT)
+        {
+          if (!allowOffScreen())
+          {
+            if (x() > 0) x(x() + acceleration());
+          }
+          else
+          {
+            x(x() + acceleration());
+          }
 
-    if (!isMoving())
-    {
-      if (facing_ == Direction::RIGHT)
+          this->sprite().textureRect(this->spriteSheet()->getNextSprite(Direction::LEFT));
+        }
+      }
+
+      if (!isMoving())
       {
-        // get first sprite for direction
+        if (facing_ == Direction::NONE)
+        {
+          this->sprite().textureRect(this->spriteSheet()->getFirstSprite(Direction::NONE));
+        }
+        if (facing_ == Direction::RIGHT)
+        {
+          this->sprite().textureRect(this->spriteSheet()->getFirstSprite(Direction::RIGHT));
+        }
+
+        if (facing_ == Direction::LEFT)
+        {
+          this->sprite().textureRect(this->spriteSheet()->getFirstSprite(Direction::LEFT));
+        }
       }
 
-      if (facing_ == Direction::LEFT)
+      if (velocity() != 0 && facing_ == Direction::RIGHT)
       {
-        // get first sprite for direction
+        this->sprite().textureRect(this->spriteSheet()->getFirstSprite(Direction::JUMPRIGHT));
+      }
+
+      if (velocity() != 0 && facing_ == Direction::LEFT)
+      {
+        this->sprite().textureRect(this->spriteSheet()->getFirstSprite(Direction::JUMPLEFT));
       }
     }
-
-    if (velocity() != 0 && facing_ == Direction::RIGHT)
+    else
     {
-      // get first sprite
-    }
-
-    if (velocity() != 0 && facing_ == Direction::LEFT)
-    {
-      // get first sprite
+      // TODO: Autocycle sprite sheet
     }
 
     Entity::move();
