@@ -26,7 +26,7 @@ private:
 
 public:
   SpriteSheet() : texture_(nullptr), totalFrames_(1) {}
-  
+
   ~SpriteSheet()
   {
     if (texture_ != nullptr) SDL_DestroyTexture(texture_);
@@ -38,7 +38,7 @@ public:
 
   void texture(SDL_Texture* texture)
   {
-    if (texture_ != nullptr) 
+    if (texture_ != nullptr)
     {
       cout << "SpriteSheet destroying texture" << endl;
       SDL_DestroyTexture(texture);
@@ -49,7 +49,7 @@ public:
     SDL_QueryTexture(texture_, nullptr, nullptr, &w, &frameHeight_);
     frameWidth_ = w / totalFrames_;
   }
- 
+
   SDL_Texture* texture() const { return texture_; }
 
   void defineFrames(Direction d, const vector<int>& frames)
@@ -82,6 +82,8 @@ public:
 
   SDL_Rect getFirstSprite(Direction d)
   {
+    cout << "getFirstSprite: " << d << endl;
+    cout << "first sprite: " << &spriteFrames_[d] << endl;
     SPRITEFRAME sf = spriteFrames_[d];
     sf.currentFramePointer = 0;
     spriteFrames_[d] = sf;

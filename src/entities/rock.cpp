@@ -20,7 +20,7 @@ Rock::Rock(GameObject* gameObject) : CharacterEntity(gameObject)
   facing(Direction::NONE);
   visible(true);
   isPlayer(false);
-  isStatic(false);
+  isStatic(true);
   acceleration(0);
   allowOffScreen(false);
 }

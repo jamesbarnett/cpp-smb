@@ -17,6 +17,10 @@ void MainScene::reset()
   entities().clear();
   Entities::Mario* mario = new Entities::Mario(gameObject());
   player_ = mario;
+  mario->visible(true);
+  mario->spriteSheet()->totalFrames(10);
+  mario->sprite().texture(mario->spriteSheet()->texture());
+  mario->sprite().textureRect(mario->spriteSheet()->getFirstSprite(Direction::RIGHT));
   addEntity(mario);
 
   // Start the song over
@@ -164,7 +168,6 @@ void MainScene::update(long ms)
 
     if (e->velocity() > viewport_->tileHeight()) e->velocity(viewport_->tileHeight());
     if (e->velocity() < -viewport_->tileHeight()) e->velocity(-viewport_->tileHeight());
-
   }
 
   updateEntities();
